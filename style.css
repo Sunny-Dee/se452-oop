@@ -3,8 +3,8 @@
 body {
 	margin: 0px;
 	padding: 0;
-	background: #6A5ACD ;
-	font-family: Georgia, "Times New Roman", Times, serif;
+	background: #783393 ;
+	font-family: 'Cabin', sans-serif; /*Georgia, "Times New Roman", Times, serif; */
 	font-size: 12px;
 }
 
@@ -13,7 +13,7 @@ body {
 h1,h2,h3 {
 	margin: 0;
 	font-weight: normal;
-	color: #6666FF;
+	color: #783393;
 }
 
 h1 {
@@ -44,14 +44,20 @@ hr {
 	height: 60px;
 	margin: 0 auto;
 	padding: 0px;
+	background-color: #F27C21;
+}
+
+#banner {
+	background-color: #EF4581;
 }
 
 /* Game Speed LOGO Decoration */
 #logo {
 	width: 1000px;
-	height: 110px;
+	height: 150px;
 	margin: 0 auto;
 	padding: 30px 20px 0px 20px;
+	background-color: #EF4581;
 }
 
 /* Game Speed LOGO Decoration with Heading and paragraph Tags*/
@@ -60,7 +66,7 @@ hr {
 	margin: 0px;
 	line-height: normal;
 	font-weight: normal;
-	color: #6A5ACD;
+	/*color: #EF4581; */
 
 }
 
@@ -69,7 +75,7 @@ hr {
 #logo p {
 	margin-top: -4px;
 	font-size: 13px;
-	color: #6A5ACD;
+	color: #FAFAFA;
 
 }
 
@@ -85,7 +91,7 @@ hr {
 
 #logo a {
 	text-decoration: none;
-	color: #6A5ACD;
+  /*color: #EF4581; */
 
 }
 
@@ -93,7 +99,7 @@ hr {
 
 #logo h1 a {
 	text-decoration: none;
-	color: #00CC00;
+	color: #FCD837;
 }
 
 /* Decoration of Top/Main Navigation Bar (Menu Content)*/
@@ -250,7 +256,6 @@ hr {
 	float: left;
 	width: 225px;
 	font-size: 12px;
-	background: #F5F5F5;
 }
 
 /* Left Navigation Bar - Decoration for Unordered List */
@@ -269,7 +274,7 @@ hr {
 	margin-bottom: 20px;
 	padding: 10px 0px 10px 0px;
 	border-radius: 5px;
-	background: #66FF00;
+	background: #F27C21;
 }
 
 /* Left Navigation Bar - Decoration for Consoles , Games , Tablets */
@@ -325,8 +330,8 @@ hr {
 	padding: 8px 0 10px 20px;
 	background: url(images/site/img03.jpg) no-repeat left bottom;
 	font-size: 24px;
-	font-weight: normal;
-	color: #000000;
+	font-weight: bold;
+	color: #FCD837;
 	font-size: 24px;
 }
 
@@ -343,7 +348,7 @@ hr {
 	text-align: left;
 	text-decoration: none;
 	font-weight: bold;
-	color: #000000;
+	color: #FFFFFF;
 }
 
 /* Footer Content for Game Speed */

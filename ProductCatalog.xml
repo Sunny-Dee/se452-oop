@@ -2,70 +2,6 @@
 
 <ProductCatalog>
 
-<ConsoleCatalog>
-    <console id="xboxone">
-        <name>Xbox One</name>
-        <price>399.99</price>
-        <image>xbox1.jpg</image>
-        <manufacturer>Microsoft</manufacturer>
-        <condition>New</condition>
-        <discount>10.0</discount>
-        <accessories>
-            <accessory>xboxone_wc</accessory>
-            <accessory>xboxone_sh</accessory>
-        </accessories>
-    </console>
-    <console id="xbox360">
-        <name>xbox360</name>
-        <price>399.99</price>
-        <image>xbox360.jpg</image>
-        <manufacturer>Microsoft</manufacturer>
-        <condition>New</condition>
-        <discount>10.0</discount>
-        <accessories>
-            <accessory>xbox360_wc</accessory>
-            <accessory>xbox360_sh</accessory>
-        </accessories>
-    </console>
-
-    <console id="ps4">
-        <name>PS4</name>
-        <price>349.99</price>
-        <image>PS4-console-bundle.jpg</image>
-        <manufacturer>Sony</manufacturer>
-        <condition>New</condition>
-        <discount>10.0</discount>
-        <accessories>
-            <accessory>ps4_wc</accessory>
-			<accessory>ps3_wc</accessory>
-        </accessories>
-    </console>
-    <console id="ps3">
-        <name>PS3</name>
-        <price>349.99</price>
-        <image>ps3.jpg</image>
-        <manufacturer>Sony</manufacturer>
-        <condition>New</condition>
-        <discount>10.0</discount>
-        <accessories>
-            <accessory>ps3_wc</accessory>
-			<accessory>ps3_wc</accessory>
-        </accessories>
-    </console>
-    <console id="nintendo">
-        <name>WII</name>
-        <price>249.99</price>
-        <image>Wii-Console.png</image>
-        <manufacturer>Nintendo</manufacturer>
-        <condition>New</condition>
-        <discount>10.0</discount>
-        <accessories>
-            <accessory>nintendo_wc</accessory>
-            <accessory>nintendo_sh</accessory>
-        </accessories>
-    </console>
-</ConsoleCatalog>
-
 <TabletCatalog>
     <tablet id="ipad">
         <name>Apple Ipad Pro</name>
@@ -109,121 +45,145 @@
     </tablet>
 
 </TabletCatalog>
-<GamesCatalog>
-<game id="g1">
-        <name>FIFA 2016</name>
-        <price>50.99</price>
-        <image>ea_fifa.jpg</image>
-        <manufacturer>ElectronicArts</manufacturer>
-        <condition>New</condition>
-        <discount>15.0</discount>
-</game>
-<game id="g2">
-        <name>Need for Speed</name>
-        <price>50.99</price>
-        <image>ea_nfs.jpg</image>
-        <manufacturer>ElectronicArts</manufacturer>
-        <condition>Refurbished</condition>
-        <discount>15.0</discount>
-</game>
-<game id="g3">
-        <name>Call Of Duty</name>
-        <price>50.99</price>
-        <image>activision_cod.jpg</image>
-        <manufacturer>Activision</manufacturer>
-        <condition>New</condition>
-        <discount>15.0</discount>
-</game>
-<game id="g4">
-        <name>Evolve</name>
-        <price>50.99</price>
-        <image>tti_evolve.jpg</image>
-        <manufacturer>TakeTwoInteractive</manufacturer>
-        <condition>New</condition>
-        <discount>15.0</discount>
-</game>
-</GamesCatalog>
 
-<AccessoryCatalog>
+<SmartPhoneCatalog>
+  <smartphone id="s1">
+          <name>Iphone 7 128GB</name>
+          <price>745.00</price>
+          <image>iphone-7-silver-2.jpg</image>
+          <manufacturer>Apple</manufacturer>
+          <condition>New</condition>
+          <discount>4.0</discount>
+  </smartphone>
+  <smartphone id="s2">
+          <name>Samsung - Galaxy S8 64GB</name>
+          <price>650.00</price>
+          <image>galaxy-s8.png</image>
+          <manufacturer>Samsung</manufacturer>
+          <condition>New</condition>
+          <discount>50.0</discount>
+  </smartphone>
+  <smartphone id="s3">
+          <name>Google - Pixel 4G LTE with 32GB</name>
+          <price>649.99</price>
+          <image>google-pixel.png</image>
+          <manufacturer>Google</manufacturer>
+          <condition>New</condition>
+          <discount>100.00</discount>
+  </smartphone>
 
-    <accessory id="xboxone_wc">
-        <name>Controller</name>
-        <price>89.99</price>
-        <image>XBOX controller.jpg</image>
-        <manufacturer>Microsoft</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
+  <smartphone id="s4">
+          <name>Samsung - Galaxy S7 32GB</name>
+          <price>249.00</price>
+          <image>galaxy-s7.png</image>
+          <manufacturer>Samsung</manufacturer>
+          <condition>Refurbished</condition>
+          <discount>325.00</discount>
+  </smartphone>
 
-    <accessory id="xboxone_sh">
-        <name>Turtle Beach Headset</name>
-        <price>89.99</price>
-        <image>Turtle Beach Headset.jpg</image>
-        <manufacturer>Microsoft</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
+  <smartphone id="s5">
+          <name>Samsung - Galaxy J3 (2016) 4G LTE with 16GB</name>
+          <price>149.99</price>
+          <image>galaxy-j3.png</image>
+          <manufacturer>Samsung</manufacturer>
+          <condition>New</condition>
+          <discount>30.00</discount>
+  </smartphone>
+</SmartPhoneCatalog>
 
-    <accessory id="xbox360_wc">
-        <name>XBOX Speeding Wheel</name>
-        <price>89.99</price>
-        <image>XBOX360-SpeedWheel.jpg</image>
-        <manufacturer>Microsoft</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
+<TvCatalogue>
+  <tv id="tv1">
+          <name>Samsung 60" 6200 Series - Full HD Smart LED TV</name>
+          <price>649.99</price>
+          <image>samsung-tv.png</image>
+          <manufacturer>Samsung</manufacturer>
+          <condition>New</condition>
+          <discount>1052.00</discount>
+  </tv>
 
-    <accessory id="xbox360_sh">
-        <name>XBOX Wireless Adapter</name>
-        <price>89.99</price>
-        <image>xbox360_wa.png</image>
-        <manufacturer>Microsoft</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
+  <tv id="tv2">
+          <name>SHARP LC- High Definition Television,LED,90In.</name>
+          <price>8000.00</price>
+          <image>sharp-tv.png</image>
+          <manufacturer>Sharp</manufacturer>
+          <condition>New</condition>
+          <discount>4.45</discount>
+  </tv>
 
-    <accessory id="ps4_wc">
-        <name>PS Controller</name>
-        <price>89.99</price>
-        <image>XBOX controller.jpg</image>
-        <manufacturer>Sony</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
+  <tv id="tv3">
+          <name>LG 65-Inch 4K Ultra HD Curved Smart OLED TV</name>
+          <price>2349.00</price>
+          <image>lg-tv.png</image>
+          <manufacturer>LG</manufacturer>
+          <condition>New</condition>
+          <discount>10</discount>
+  </tv>
 
-    <accessory id="ps3_wc">
-        <name>PS Gaming HeadPhones</name>
-        <price>89.99</price>
-        <image>Turtle Beach Headset.jpg</image>
-        <manufacturer>Sony</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
+  <tv id="tv4">
+          <name>Sanyo 55" 1080p 60Hz Class LED HDTV</name>
+          <price>418.00</price>
+          <image>sanyo-tv.png</image>
+          <manufacturer>Sanyo</manufacturer>
+          <condition>New</condition>
+          <discount>80.00</discount>
+  </tv>
 
-    <accessory id="nintendo_wc">
-        <name>Nintendo Controller</name>
-        <price>89.99</price>
-        <image>Wii1.jpg</image>
-        <manufacturer>Nintendo</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
+  <tv id="tv5">
+          <name>Sony 40" 1080p 120Hz LCD Smart HDTV</name>
+          <price>478.00</price>
+          <image>sony-tv.png</image>
+          <manufacturer>Sony</manufacturer>
+          <condition>New</condition>
+          <discount>25.00</discount>
+  </tv>
 
-    <accessory id="nintendo_sh">
-        <name>Nintendo Racing Controller</name>
-        <price>89.99</price>
-        <image>Wii2.jpg</image>
-        <manufacturer>Nintendo</manufacturer>
-        <condition>New</condition>
-        <discount>40.0</discount>
-     </accessory>
-	 
-  
+</TvCatalogue>
 
-</AccessoryCatalog>
+<LaptopCatalogue>
+  <laptop id="l1">
+          <name>Microsoft - Surface Pro 4 - 12.3"</name>
+          <price>749.99</price>
+          <image>surfacebook-pro.jpeg</image>
+          <manufacturer>Microsoft</manufacturer>
+          <condition>New</condition>
+          <discount>250.00</discount>
+  </laptop>
 
+  <laptop id="l2">
+          <name>Microsoft - Surface Book 2-in-1 13.5" Touch-Screen Laptop</name>
+          <price>1178.99</price>
+          <image>surfacebook.png</image>
+          <manufacturer>Microsoft</manufacturer>
+          <condition>New</condition>
+          <discount>321.00</discount>
+  </laptop>
 
+  <laptop id="l3">
+          <name>Apple - MacBook Air (Latest Model) - 13.3" Display</name>
+          <price>799.99</price>
+          <image>macbook-air-laptop.png</image>
+          <manufacturer>Apple</manufacturer>
+          <condition>New</condition>
+          <discount>200.00</discount>
+  </laptop>
 
+  <laptop id="l4">
+          <name>Apple - MacBook Pro with Retina display - 13.3" Display</name>
+          <price>1099.99</price>
+          <image>macbook-pro.png</image>
+          <manufacturer>Apple</manufacturer>
+          <condition>New</condition>
+          <discount>200.00</discount>
+  </laptop>
 
+  <laptop id="l5">
+          <name>Asus - 15.6" Gaming Laptop</name>
+          <price>1049.99</price>
+          <image>asus.png</image>
+          <manufacturer>Asus</manufacturer>
+          <condition>New</condition>
+          <discount>200.00</discount>
+  </laptop>
+</LaptopCatalogue>
 
 </ProductCatalog>
