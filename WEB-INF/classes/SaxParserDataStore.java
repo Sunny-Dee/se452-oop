@@ -90,6 +90,8 @@ public class SaxParserDataStore extends DefaultHandler {
     static HashMap<String, Product> games;
     static HashMap<String, Product> tablets;
     static HashMap<String, Product> accessories;
+    static HashMap<String, Product> smartphones;
+    
 
     static HashMap<String, HashMap<String, Product>> allProducts;
 
@@ -110,12 +112,16 @@ public class SaxParserDataStore extends DefaultHandler {
         games = new HashMap<>();
         tablets = new HashMap<>();
         accessories = new HashMap<>();
+        smartphones = new HashMap<>();
+        
         accessoryHashMap = new HashMap<String, String>();
         allProducts = new HashMap<>();
+        allProducts.put("smartphone", smartphones);
         allProducts.put("console", simpleConsoles);
         allProducts.put("game", games);
         allProducts.put("tablet", tablets);
         allProducts.put("accessory", accessories);
+        
         parseDocument();
     }
 
@@ -263,6 +269,6 @@ public class SaxParserDataStore extends DefaultHandler {
 //call the constructor to parse the xml and get product details
     public static void addHashmap() {
         String TOMCAT_HOME = System.getProperty("catalina.home");
-        new SaxParserDataStore(TOMCAT_HOME + "\\webapps\\GameSpeedServletCSSwithSAXTutorial\\ProductCatalog.xml");
+        new SaxParserDataStore(TOMCAT_HOME + "\\webapps\\BestDeal\\ProductCatalog.xml");
     }
 }

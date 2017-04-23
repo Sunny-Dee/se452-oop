@@ -9,14 +9,17 @@ import javax.servlet.http.HttpServlet;
  *
  * @author delianaescobari
  */
+
+@WebServlet("/Product")
+
 public class Product extends HttpServlet {
 
 //    private final String productType;
     private String id;
-    private String name;
-    private double price;
-    private String image;
-    private String retailer;
+    private String name; 
+    private double price; 
+    private String image; 
+    private String retailer; 
     private String condition;
     private double discount;
 
