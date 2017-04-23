@@ -82,52 +82,34 @@ import org.xml.sax.helpers.DefaultHandler;
 ////////////////////////////////////////////////////////////
 public class SaxParserDataStore extends DefaultHandler {
 
-    Console console;
-    Product currProduct;
-
-    static HashMap<String, Console> consoles;
-    static HashMap<String, Product> simpleConsoles;
-    static HashMap<String, Product> games;
     static HashMap<String, Product> tablets;
-//    static HashMap<String, Product> accessories;
     static HashMap<String, Product> tv;
     static HashMap<String, Product> smartphones;
-     static HashMap<String, Product> laptops;
-    
-
+    static HashMap<String, Product> laptops;
     static HashMap<String, HashMap<String, Product>> allProducts;
 
     String consoleXmlFileName;
-    HashMap<String, String> accessoryHashMap;
     String elementValueRead;
 
     String currentElement = "";
-    String currentElem2 = "";
+    Product currProduct;
 
     public SaxParserDataStore() {
     }
 
     public SaxParserDataStore(String consoleXmlFileName) {
         this.consoleXmlFileName = consoleXmlFileName;
-        consoles = new HashMap<String, Console>();
-        simpleConsoles = new HashMap<>();
-        games = new HashMap<>();
         tablets = new HashMap<>();
         tv = new HashMap<>();
-//        accessories = new HashMap<>();
         smartphones = new HashMap<>();
         laptops = new HashMap<>();
-        
-        accessoryHashMap = new HashMap<String, String>();
+
         allProducts = new HashMap<>();
         allProducts.put("smartphone", smartphones);
-        allProducts.put("console", simpleConsoles);
-        allProducts.put("game", games);
         allProducts.put("tablet", tablets);
         allProducts.put("tv", tv);
         allProducts.put("laptop", laptops);
-//        allProducts.put("accessory", accessories);
-        
+
         parseDocument();
     }
 
@@ -170,61 +152,27 @@ public class SaxParserDataStore extends DefaultHandler {
 ////////////////////////////////////////////////////////////
     // when xml start element is parsed store the id into respective hashmap for console,games etc 
     @Override
-    public void startElement(String str1, String str2, String elementName, Attributes attributes) throws SAXException {
+    public void startElement(String str1, String str2, String elementName,
+            Attributes attributes) throws SAXException {
         String elemName = elementName.toLowerCase();
 
-        if (elemName.equals("accessory")) {
-            //only when accessories are not the ones included in the console product catalogue
-            if (!currentElem2.equals("console")) {
-                currentElem2 = "accessory";
-                currProduct = new Product();
-                currProduct.setId(attributes.getValue("id"));
-
-            }
-
-        } else {
-            if (allProducts.containsKey(elemName)) {
-                currentElem2 = elemName;
-                currProduct = new Product();
-                currProduct.setId(attributes.getValue("id"));
-            }
-
-            if (elementName.equalsIgnoreCase("console")) {
-//            currentElement = "console";
-                console = new Console();
-                console.setId(attributes.getValue("id"));
-            }
+        if (allProducts.containsKey(elemName)) {
+            currentElement = elemName;
+            currProduct = new Product();
+            currProduct.setId(attributes.getValue("id"));
         }
-    }
-    // when xml end element is parsed store the data into respective hashmap for console,games etc respectively
 
+    }
+
+// when xml end element is parsed store the data into respective hashmap for console,games etc respectively
     @Override
     public void endElement(String str1, String str2, String element) throws SAXException {
 
         String elemName = element.toLowerCase();
         //special case for accessories
-        if (elemName.equals("accessory")) {
-            if (currentElem2.equals("accessory")) {
-                allProducts.get("accessory").put(currProduct.getId(), currProduct);
-
-            } else if (currentElem2.equals("console")) {
-                accessoryHashMap.put(elementValueRead, elementValueRead);
-            }
-
-        } else if (elemName.equals("accessories")) {
-            if (currentElem2.equals("console")) {
-
-                console.setAccessories(accessoryHashMap);
-                accessoryHashMap = new HashMap<String, String>();
-
-            }
-
-        } else if (allProducts.containsKey(elemName)) {
+        if (allProducts.containsKey(elemName)) {
             allProducts.get(elemName).put(currProduct.getId(), currProduct);
 
-            if (elemName.equals("console")) {
-                consoles.put(console.getId(), console);
-            }
 
         } else {
             //it is a product property. 
@@ -253,15 +201,6 @@ public class SaxParserDataStore extends DefaultHandler {
         }
     }
 
-    public static HashMap<String, Product> fromConsoleToProduct() {
-        HashMap<String, Product> newMap = new HashMap<>();
-
-        for (Console c : consoles.values()) {
-            newMap.put(c.getId(), (Product) c);
-        }
-
-        return newMap;
-    }
 
     //get each element in xml tag
     @Override

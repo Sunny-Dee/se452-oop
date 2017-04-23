@@ -141,7 +141,7 @@ public class Utilities extends HttpServlet {
         HashMap<String, User> hm = new HashMap<String, User>();
         String TOMCAT_HOME = System.getProperty("catalina.home");
         try {
-            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\GameSpeedServletCSSwithSAXTutorial\\UserDetails.txt"));
+            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt"));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             hm = (HashMap) objectInputStream.readObject();
         } catch (Exception e) {
@@ -164,7 +164,7 @@ public class Utilities extends HttpServlet {
         HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
         String TOMCAT_HOME = System.getProperty("catalina.home");
         try {
-            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\GameSpeedServletCSSwithSAXTutorial\\PaymentDetails.txt"));
+            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             orderPayments = (HashMap) objectInputStream.readObject();
         } catch (Exception e) {
@@ -209,19 +209,19 @@ public class Utilities extends HttpServlet {
         String TOMCAT_HOME = System.getProperty("catalina.home");
         // get the payment details file
         try {
-            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\GameSpeedServletCSSwithSAXTutorial\\PaymentDetails.txt"));
+            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             orderPayments = (HashMap) objectInputStream.readObject();
         } catch (Exception e) {
 
         }
         if (orderPayments == null) {
-            orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
+            orderPayments = new HashMap<>();
         }
         // if there exist order id already add it into same list for order id or create a new record with order id
 
         if (!orderPayments.containsKey(orderId)) {
-            ArrayList<OrderPayment> arr = new ArrayList<OrderPayment>();
+            ArrayList<OrderPayment> arr = new ArrayList<>();
             orderPayments.put(orderId, arr);
         }
         ArrayList<OrderPayment> listOrderPayment = orderPayments.get(orderId);
@@ -230,7 +230,7 @@ public class Utilities extends HttpServlet {
 
         // add order details into file
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(TOMCAT_HOME + "\\webapps\\GameSpeedServletCSSwithSAXTutorial\\PaymentDetails.txt"));
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(orderPayments);
             objectOutputStream.flush();
@@ -241,54 +241,6 @@ public class Utilities extends HttpServlet {
         }
     }
 
-
-    /* getConsoles Functions returns the Hashmap with all consoles in the store.*/
-//    public HashMap<String, Console> getConsoles() {
-//        HashMap<String, Console> hm = new HashMap<String, Console>();
-//        hm.putAll(SaxParserDataStore.consoles);
-//        return hm;
-//    }
-//
-//    /* getGames Functions returns the  Hashmap with all Games in the store.*/
-//    public HashMap<String, Product> getGames() {
-//        HashMap<String, Product> hm = new HashMap<>();
-//        hm.putAll(SaxParserDataStore.games);
-//        return hm;
-//    }
-//
-//    /* getTablets Functions returns the Hashmap with all Tablet in the store.*/
-//    public HashMap<String, Product> getTablets() {
-//        HashMap<String, Product> hm = new HashMap<>();
-//        hm.putAll(SaxParserDataStore.tablets);
-//        return hm;
-//    }
-//
-//    /* getProducts Functions returns the Arraylist of consoles in the store.*/
-//    public ArrayList<String> getProducts() {
-//        ArrayList<String> ar = new ArrayList<String>();
-//        for (Map.Entry<String, Console> entry : getConsoles().entrySet()) {
-//            ar.add(entry.getValue().getName());
-//        }
-//        return ar;
-//    }
-//
-//    /* getProducts Functions returns the Arraylist of games in the store.*/
-//    public ArrayList<String> getProductsGame() {
-//        ArrayList<String> ar = new ArrayList<String>();
-//        for (Map.Entry<String, Product> entry : getGames().entrySet()) {
-//            ar.add(entry.getValue().getName());
-//        }
-//        return ar;
-//    }
-//
-//    /* getProducts Functions returns the Arraylist of Tablets in the store.*/
-//    public ArrayList<String> getProductsTablets() {
-//        ArrayList<String> ar = new ArrayList<String>();
-//        for (Map.Entry<String, Product> entry : getTablets().entrySet()) {
-//            ar.add(entry.getValue().getName());
-//        }
-//        return ar;
-//    }
 
 }
 
