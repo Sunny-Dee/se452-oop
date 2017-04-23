@@ -89,8 +89,10 @@ public class SaxParserDataStore extends DefaultHandler {
     static HashMap<String, Product> simpleConsoles;
     static HashMap<String, Product> games;
     static HashMap<String, Product> tablets;
-    static HashMap<String, Product> accessories;
+//    static HashMap<String, Product> accessories;
+    static HashMap<String, Product> tv;
     static HashMap<String, Product> smartphones;
+     static HashMap<String, Product> laptops;
     
 
     static HashMap<String, HashMap<String, Product>> allProducts;
@@ -111,8 +113,10 @@ public class SaxParserDataStore extends DefaultHandler {
         simpleConsoles = new HashMap<>();
         games = new HashMap<>();
         tablets = new HashMap<>();
-        accessories = new HashMap<>();
+        tv = new HashMap<>();
+//        accessories = new HashMap<>();
         smartphones = new HashMap<>();
+        laptops = new HashMap<>();
         
         accessoryHashMap = new HashMap<String, String>();
         allProducts = new HashMap<>();
@@ -120,7 +124,9 @@ public class SaxParserDataStore extends DefaultHandler {
         allProducts.put("console", simpleConsoles);
         allProducts.put("game", games);
         allProducts.put("tablet", tablets);
-        allProducts.put("accessory", accessories);
+        allProducts.put("tv", tv);
+        allProducts.put("laptop", laptops);
+//        allProducts.put("accessory", accessories);
         
         parseDocument();
     }
