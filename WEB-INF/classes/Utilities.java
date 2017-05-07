@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
@@ -50,11 +49,23 @@ public class Utilities extends HttpServlet {
             result = result + "<div id='menu' style='float: right;'><ul>";
             if (session.getAttribute("username") != null) {
                 String username = session.getAttribute("username").toString();
+                String usertype = session.getAttribute("usertype").toString();
                 username = Character.toUpperCase(username.charAt(0)) + username.substring(1);
                 result = result + "<li><a href='ViewOrder'>ViewOrder</a></li>"
-                        + "<li><a>Hello," + username + "</a></li>"
+                        + "<li><a>Hello, " + username + "</a></li>"
                         + "<li><a href='Account'>Account</a></li>"
                         + "<li><a href='Logout'>Logout</a></li>";
+                
+                if (usertype.equals("retailer")){  //Store Manager
+                    //Store Manager can Add/Delete/Update products
+                    result = result + "<li><a href='ManageInventory'>Manage Inventory</a></li>";
+                } else if (usertype.equals("manager")){
+                    // Manager can  can create Customer accounts and can Add/Delete/Update customers’ orders
+                    result = result 
+                            + "<li><a href='ManagerCustomers'>Manage Customers</a></li>"
+                            + "<li><a href='ManagerOrders'>Orders</a></li>";
+                }
+                
             } else {
                 result = result + "<li><a href='ViewOrder'>View Order</a></li>" + "<li><a href='Login'>Login</a></li>";
             }

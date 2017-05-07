@@ -40,7 +40,7 @@ hr {
 /* Header Content of the Website*/
 
 #header {
-	width: 1000px;
+	width: 1080px;
 	height: 60px;
 	margin: 0 auto;
 	padding: 0px;
@@ -53,7 +53,7 @@ hr {
 
 /* Game Speed LOGO Decoration */
 #logo {
-	width: 1000px;
+	width: 1080px;
 	height: 150px;
 	margin: 0 auto;
 	padding: 30px 20px 0px 20px;
@@ -149,7 +149,7 @@ hr {
 /* Page Display Decoration*/
 
 #page {
-	width: 1000px;
+	width: 1080px;
 	margin: 0 auto;
 	padding: 20px 20px 0px 20px;
 }
@@ -452,6 +452,24 @@ hr {
 /* Buy Now buttons  Decoration for Products in Game Speed*/
 
 .btnbuy {
+	-webkit-border-radius: 5;
+	-moz-border-radius: 5;
+	border-radius: 5px;
+	font-family: Arial;
+	color: #ffffff;
+	font-size: 15px;
+	background: #3498db;
+	padding: 5px 10px 5px 10px;
+	text-decoration: none;
+	display: block;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Buy Now buttons  Decoration for Products in Game Speed*/
+
+.btndel {
 	-webkit-border-radius: 5;
 	-moz-border-radius: 5;
 	border-radius: 5px;

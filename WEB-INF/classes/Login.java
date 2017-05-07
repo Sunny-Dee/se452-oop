@@ -31,7 +31,7 @@ public class Login extends HttpServlet {
 		//else error message will be shown
 		try
 		{		
-          FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME+"\\webapps\\GameSpeedServletCSSwithSAXTutorial\\UserDetails.txt"));
+          FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME+"\\webapps\\BestDeal\\UserDetails.txt"));
           ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);	      
 		  hm = (HashMap)objectInputStream.readObject();
 		}

@@ -50,7 +50,7 @@ public class Registration extends HttpServlet {
 
 			try
 			{
- 			 FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME+"\\webapps\\GameSpeedServletCSSwithSAXTutorial\\UserDetails.txt"));
+ 			 FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME+"\\webapps\\BestDeal\\UserDetails.txt"));
 			 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);	      
 			 hm= (HashMap)objectInputStream.readObject();
 			}
@@ -70,7 +70,7 @@ public class Registration extends HttpServlet {
 
 				User user = new User(username,password,usertype);
 				hm.put(username, user);
-			    FileOutputStream fileOutputStream = new FileOutputStream(TOMCAT_HOME+"\\webapps\\GameSpeedServletCSSwithSAXTutorial\\UserDetails.txt");
+			    FileOutputStream fileOutputStream = new FileOutputStream(TOMCAT_HOME+"\\webapps\\BestDeal\\UserDetails.txt");
         		ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
            	 	objectOutputStream.writeObject(hm);
 				objectOutputStream.flush();
