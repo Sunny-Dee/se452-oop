@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -18,30 +19,30 @@ public class ProductList extends HttpServlet{
     private final String productType;
     private final String title;
     HashMap<String, Product> allRetailersMap;
-
+    
 
 	/* Product Page Displays all the specified products and their Information in Game Speed */
-
+        
         public ProductList(String productType, String title, HashMap<String, Product> allRetailersMap){
             this.productType = productType;
             this.title = title;
             this.allRetailersMap = allRetailersMap;
-
+            
         }
 
-
-	protected void doGet(HttpServletRequest request,
+	
+	protected void doGet(HttpServletRequest request, 
                 HttpServletResponse response) throws ServletException, IOException {
 
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 
 		/* Checks the specified product type whether it is electronicArts or activision or takeTwoInteractive */
-
+				
 		String name = null;
 		String maker = request.getParameter("maker");
 		HashMap<String, Product> hm = new HashMap<>();
-
+		
 		if(maker==null)
 		{
 			hm.putAll(allRetailersMap);
@@ -49,7 +50,7 @@ public class ProductList extends HttpServlet{
 		}
 		else
 		{
-                  name = maker;
+                  name = maker;  
                   for(Map.Entry<String,Product> entry : allRetailersMap.entrySet()){
                       String entryRetailer = entry.getValue().getRetailer();
                       if(entryRetailer.toLowerCase().equals(name.toLowerCase())){
@@ -57,19 +58,19 @@ public class ProductList extends HttpServlet{
                       }
                   }
                 }
-
+                  
 		/* Header, Left Navigation Bar are Printed.
 		All the specified products and product information are dispalyed in the Content Section
 		and then Footer is Printed*/
 		String nameFormatted;
                 if (name != null && name != ""){
-                    nameFormatted = name.substring(0, 1).toUpperCase()
+                    nameFormatted = name.substring(0, 1).toUpperCase() 
                             + name.substring(1);
                 } else {
                     nameFormatted = "";
                 }
-
-
+                    
+                
 		Utilities utility = new Utilities(request,pw);
 		utility.printHtml("Header.html");
 		utility.printHtml("LeftNavigationBar.html");
@@ -103,9 +104,9 @@ public class ProductList extends HttpServlet{
 			pw.print("</ul></div></td>");
 			if(i%3==0 || i == size) pw.print("</tr>");
 			i++;
-		}
-		pw.print("</table></div></div></div>");
+		}		
+		pw.print("</table></div></div></div>");		
 		utility.printHtml("Footer.html");
-
+		
 	}
 }

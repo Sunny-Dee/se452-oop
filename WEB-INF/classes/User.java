@@ -1,8 +1,8 @@
+
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.*;
-
-
 
 /* 
 	Users class contains class variables id,name,password,usertype.
@@ -14,7 +14,7 @@ import java.io.*;
 */
 
 public class User implements Serializable{
-	private int id;
+
 	private String name;
 	private String password;
 	private String usertype;
@@ -23,14 +23,6 @@ public class User implements Serializable{
 		this.name=name;
 		this.password=password;
 		this.usertype=usertype;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {

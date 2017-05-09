@@ -1,43 +1,6 @@
 
-/** *******
- *
- *
- * http://www.saxproject.org/
- *
- * SAX is the Simple API for XML, originally a Java-only API.
- * SAX was the first widely adopted API for XML in Java, and is a �de facto� standard.
- * The current version is SAX 2.0.1, and there are versions for several programming language environments other than Java.  *
- * The following URL from Oracle is the JAVA documentation for the API
- *
- * https://docs.oracle.com/javase/7/docs/api/org/xml/sax/helpers/DefaultHandler.html
- *
- *
- ******** */
-import org.xml.sax.InputSource;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.*;
-import java.io.StringReader;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
-////////////////////////////////////////////////////////////
-/**
- * ************
- *
- * SAX parser use callback function to notify client object of the XML document
- * structure. You should extend DefaultHandler and override the method when
- * parsin the XML document
- *
- **************
- */
-////////////////////////////////////////////////////////////
 /**
  * *******
  *
@@ -86,7 +49,7 @@ public class SaxParserDataStore extends DefaultHandler {
     static HashMap<String, Product> tv;
     static HashMap<String, Product> smartphones;
     static HashMap<String, Product> laptops;
-    static HashMap<String, HashMap<String, Product>> allProducts;
+    public static HashMap<String, HashMap<String, Product>> allProducts;
 
     String consoleXmlFileName;
     String elementValueRead;
@@ -112,7 +75,7 @@ public class SaxParserDataStore extends DefaultHandler {
 
         parseDocument();
     }
-
+    
     //parse the xml using sax parser to get the data
     private void parseDocument() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -216,4 +179,6 @@ public class SaxParserDataStore extends DefaultHandler {
         String TOMCAT_HOME = System.getProperty("catalina.home");
         new SaxParserDataStore(TOMCAT_HOME + "\\webapps\\BestDeal\\ProductCatalog.xml");
     }
+    
+    
 }
