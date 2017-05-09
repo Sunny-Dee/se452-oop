@@ -1,7 +1,10 @@
 
 import java.io.*;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +39,19 @@ public class Login extends HttpServlet {
         } catch (Exception e) {
 
         }
-        User user = hm.get(username);
+        
+        
+//        //***********************
+//        MySQLDataStoreUtilities db = new MySQLDataStoreUtilities();
+//        User user = null;
+//        try {
+//            user = db.getUserQuery(username);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
+        MySQLDataStoreUtilities db = new MySQLDataStoreUtilities();
+        User user = db.getUser(username);  //user = hm.get(username);
         if (user != null) {
             String user_password = user.getPassword();
             if (password.equals(user_password)) {

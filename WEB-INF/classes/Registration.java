@@ -49,6 +49,7 @@ public class Registration extends HttpServlet {
                 FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt"));
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 hm = (HashMap) objectInputStream.readObject();
+                
             } catch (Exception e) {
 
             }
@@ -69,7 +70,13 @@ public class Registration extends HttpServlet {
                 objectOutputStream.close();
                 fileOutputStream.close();
                 HttpSession session = request.getSession(true);
-                session.setAttribute("login_msg", "Your " + usertype + " account has been created. Please login");
+                
+                
+                MySQLDataStoreUtilities db = new MySQLDataStoreUtilities();
+                String message = db.addUserQuery(user);
+                
+                
+                session.setAttribute("login_msg", "Your " + usertype + " "+ message);//" account has been created. Please login");
                 if (!utility.isLoggedin()) {
                     response.sendRedirect("Login");
                     return;
