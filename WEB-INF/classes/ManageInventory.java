@@ -73,7 +73,7 @@ public class ManageInventory extends HttpServlet {
                 pw.print("<h3>" + product.getName() + "</h3>");
                 pw.print("<strong>" + "$" + product.getPrice() + "</strong><ul>");
                 pw.print("<li id='item'><img src='images/" + productType + "/" + product.getImage() + "' alt='' /></li>");
-                pw.print("<li><form method='post' action='DeleteItem'>"
+                pw.print("<li><form method='post' action='SqlGatewayServlet'>"
                         + "<input type='hidden' name='name' value='" + entry.getKey() + "'>"
                         + "<input type='hidden' name='type' value='" + productType + "'>"
                         + "<input type='hidden' name='maker' value='" + product.getRetailer() + "'>"
@@ -85,12 +85,12 @@ public class ManageInventory extends HttpServlet {
                 }
                 i++;
             }
-            pw.print("</table></div></div></div>");		
+            pw.print("</table></div></div></div>");
 
             //TODO add form to add a product.
-            
+
             //Todo add for to edit a product.
-            
+
             utility.printHtml("Footer.html");
         }
 
