@@ -28,6 +28,7 @@ public class Registration extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
         Utilities utility = new Utilities(request, pw);
+        MySQLDataStoreUtilities db = new MySQLDataStoreUtilities();
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -41,39 +42,48 @@ public class Registration extends HttpServlet {
         if (!password.equals(repassword)) {
             error_msg = "Passwords doesn't match!";
         } else {
-            HashMap<String, User> hm = new HashMap<String, User>();
-            String TOMCAT_HOME = System.getProperty("catalina.home");
+            
+            User user = db.getUser(username); 
+            
+            if (user != null){
+                error_msg = "Username already exist as " + user.getUsertype();
+            } else {
+                user = new User(username, password, usertype);
+                String message = db.addUser(user);
+            
 
-            //get the user details from file 
-            try {
-                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt"));
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                hm = (HashMap) objectInputStream.readObject();
-                
-            } catch (Exception e) {
-
-            }
+//            HashMap<String, User> hm = new HashMap<String, User>();
+//            String TOMCAT_HOME = System.getProperty("catalina.home");
+//
+//            //get the user details from file 
+//            try {
+//                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt"));
+//                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+//                hm = (HashMap) objectInputStream.readObject();
+//                
+//            } catch (Exception e) {
+//
+//            }
 
             // if the user already exist show error that already exist
-            if (hm.containsKey(username)) {
-                error_msg = "Username already exist as " + usertype;
-            } else {
-                /*create a user object and store details into hashmap
-				store the user hashmap into file  */
-
-                User user = new User(username, password, usertype);
-                hm.put(username, user);
-                FileOutputStream fileOutputStream = new FileOutputStream(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt");
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(hm);
-                objectOutputStream.flush();
-                objectOutputStream.close();
-                fileOutputStream.close();
+//            if (hm.containsKey(username)) {
+//                error_msg = "Username already exist as " + usertype;
+//            } else {
+//                /*create a user object and store details into hashmap
+//				store the user hashmap into file  */
+//
+//                User user = new User(username, password, usertype);
+//                hm.put(username, user);
+//                FileOutputStream fileOutputStream = new FileOutputStream(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt");
+//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+//                objectOutputStream.writeObject(hm);
+//                objectOutputStream.flush();
+//                objectOutputStream.close();
+//                fileOutputStream.close();
                 HttpSession session = request.getSession(true);
-                
-                
-                MySQLDataStoreUtilities db = new MySQLDataStoreUtilities();
-                String message = db.addUserQuery(user);
+//                
+//                
+//                String message = db.addUserQuery(user);
                 
                 
                 session.setAttribute("login_msg", "Your " + usertype + " "+ message);//" account has been created. Please login");
