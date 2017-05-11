@@ -18,7 +18,7 @@ public class ViewOrder extends HttpServlet {
 
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-
+        MySQLDataStoreUtilities db = new MySQLDataStoreUtilities();
         Utilities utility = new Utilities(request, pw);
         //check if the user is logged in
         if (!utility.isLoggedin()) {
@@ -46,15 +46,15 @@ public class ViewOrder extends HttpServlet {
         }
 
         //hashmap gets all the order details from file 
-        HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
-        String TOMCAT_HOME = System.getProperty("catalina.home");
+//        HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
+//        String TOMCAT_HOME = System.getProperty("catalina.home");
 
-        try {
-            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            orderPayments = (HashMap) objectInputStream.readObject();
-        } catch (Exception e) {
-        }
+//        try {
+//            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
+//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+//            orderPayments = (HashMap) objectInputStream.readObject();
+//        } catch (Exception e) {
+//        }
 
 
         /*if order button is clicked that is user provided a order number to view order 
@@ -63,25 +63,29 @@ public class ViewOrder extends HttpServlet {
         if (request.getParameter("Order") != null && request.getParameter("Order").equals("ViewOrder")) {
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             pw.print("<input type='hidden' name='orderId' value='" + orderId + "'>");
+            
+            
+            
             //get the order details from file
-            try {
-                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                orderPayments = (HashMap) objectInputStream.readObject();
-            } catch (Exception e) {
-
-            }
-            int size = 0;
+//            try {
+//                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
+//                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+//                orderPayments = (HashMap) objectInputStream.readObject();
+//            } catch (Exception e) {
+//
+//            }
+            ArrayList<OrderItem> items = db.getOrderItems(orderId, username);
+            int size = items.size();
 
             /*get the order size and check if there exist an order with given order number 
 			if there is no order present give a message no order stored with this id */
-            if (orderPayments.get(orderId) != null) {
-                for (OrderPayment od : orderPayments.get(orderId)) {
-                    if (od.getUserName().equals(username)) {
-                        size = orderPayments.get(orderId).size();
-                    }
-                }
-            }
+//            if (orderPayments.get(orderId) != null) {
+//                for (OrderPayment od : orderPayments.get(orderId)) {
+//                    if (od.getUserName().equals(username)) {
+//                        size = orderPayments.get(orderId).size();
+//                    }
+//                }
+//            }
             // display the orders if there exist order with order id
             if (size > 0) {
                 pw.print("<table  class='gridtable'>");
@@ -90,10 +94,11 @@ public class ViewOrder extends HttpServlet {
                 pw.print("<td>UserName:</td>");
                 pw.print("<td>productOrdered:</td>");
                 pw.print("<td>productPrice:</td></tr>");
-                for (OrderPayment oi : orderPayments.get(orderId)) {
+                for (OrderItem oi : items) {
                     pw.print("<tr>");
-                    pw.print("<td><input type='radio' name='orderName' value='" + oi.getOrderName() + "'></td>");
-                    pw.print("<td>" + oi.getOrderId() + ".</td><td>" + oi.getUserName() + "</td><td>" + oi.getOrderName() + "</td><td>Price: " + oi.getOrderPrice() + "</td>");
+                    pw.print("<td><input type='radio' name='itemId' value='" + oi.getId() + "'>"
+                            + "<label for='itemId'>" + oi.getName()+"</label></td>");
+                    pw.print("<td>" + orderId + ".</td><td>" + username + "</td><td>" + oi.getName() + "</td><td>Price: " + oi.getPrice() + "</td>");
                     pw.print("<td><input type='submit' name='Order' value='CancelOrder' class='btnbuy'></td>");
                     pw.print("</tr>");
 
@@ -105,42 +110,53 @@ public class ViewOrder extends HttpServlet {
         }
         //if the user presses cancel order from order details shown then process to cancel the order
         if (request.getParameter("Order") != null && request.getParameter("Order").equals("CancelOrder")) {
-            String orderName = request.getParameter("orderName");
+//            String orderName = request.getParameter("orderName");
             int orderId = 0;
             orderId = Integer.parseInt(request.getParameter("orderId"));
-            ArrayList<OrderPayment> ListOrderPayment = new ArrayList<OrderPayment>();
+            String itemId = request.getParameter("itemId");
+            
+            db.cancelItems(orderId, username, itemId);
+            pw.print("<h4 style='color:red'>Your Order is Cancelled</h4>");
+//            ArrayList<OrderPayment> ListOrderPayment = new ArrayList<OrderPayment>();
+                
             //get the order from file
-            try {
-
-                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-                orderPayments = (HashMap) objectInputStream.readObject();
-            } catch (Exception e) {
-
-            }
+//            try {
+//
+//                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
+//                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+//                orderPayments = (HashMap) objectInputStream.readObject();
+//            } catch (Exception e) {
+//
+//            }
             //get the exact order with same ordername and add it into cancel list to remove it later
-            for (OrderPayment oi : orderPayments.get(orderId)) {
-                if (oi.getOrderName().equals(orderName)) {
-                    ListOrderPayment.add(oi);
-                    pw.print("<h4 style='color:red'>Your Order is Cancelled</h4>");
-                }
-            }
+            
+            
+            
+//            for (OrderItem oi : db.getOrderItems(orderId, username)) {
+//                if (oi.getId().equals(itemId)) {
+//                    db.cancelItems(orderId, username, itemId);
+//                    pw.print("<h4 style='color:red'>Your Order is Cancelled</h4>");
+//                }
+//            }
+            
+            
+            
             //remove all the orders from hashmap that exist in cancel list
-            orderPayments.get(orderId).removeAll(ListOrderPayment);
-            if (orderPayments.get(orderId).size() == 0) {
-                orderPayments.remove(orderId);
+//            orderPayments.get(orderId).removeAll(ListOrderPayment);
+            if (db.getOrderItems(orderId, username).size() == 0) {
+                db.cancelEntireOrder(username, orderId);
             }
             //save the updated hashmap with removed order to the file	
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                objectOutputStream.writeObject(orderPayments);
-                objectOutputStream.flush();
-                objectOutputStream.close();
-                fileOutputStream.close();
-            } catch (Exception e) {
-
-            }
+//            try {
+//                FileOutputStream fileOutputStream = new FileOutputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
+//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+//                objectOutputStream.writeObject(orderPayments);
+//                objectOutputStream.flush();
+//                objectOutputStream.close();
+//                fileOutputStream.close();
+//            } catch (Exception e) {
+//
+//            }
         }
         pw.print("</form></div></div></div>");
         utility.printHtml("Footer.html");

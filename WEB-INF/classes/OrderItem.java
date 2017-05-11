@@ -20,18 +20,28 @@ import javax.servlet.http.HttpServletResponse;
 */
 
 public class OrderItem extends HttpServlet{
+        private String itemId;
 	private String name;
 	private double price;
 	private String image;
 	private String retailer;
 	
-	public OrderItem(String name, double price, String image, String retailer){
-		this.name=name;
+	public OrderItem(String itemId, String name, double price, String image, String retailer){
+		this.itemId = itemId;
+                this.name=name;
 		this.price=price;
 		this.image=image;
 		this.retailer = retailer;
 	}
 
+        public String getId() {
+		return itemId;
+	}
+
+	public void setId(String itemId) {
+		this.itemId = itemId;
+	}
+        
 	public String getName() {
 		return name;
 	}

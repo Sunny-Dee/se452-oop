@@ -97,7 +97,7 @@ public class MySQLDataStoreUtilities {
         String query = "INSERT INTO Cart(username, itemId, itemType, maker) "
                 + "Values('" + username + "', '" + itemId + "', '"
                 + type + "', '" + maker + "');";
-        
+
         try {
 
             Connection connection = getConnection();
@@ -122,14 +122,13 @@ public class MySQLDataStoreUtilities {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet result = statement.executeQuery(query);
-            
-            while (result.next()){
+
+            while (result.next()) {
                 String itemId = result.getString("itemId");
                 String type = result.getString("itemType");
-                Product product = SaxParserDataStore
-                        .allProducts.get(type).get(itemId);
-                OrderItem orderitem = new OrderItem(product.getName(), 
-                        product.getPrice(), product.getImage(), 
+                Product product = SaxParserDataStore.allProducts.get(type).get(itemId);
+                OrderItem orderitem = new OrderItem(product.getId(), product.getName(),
+                        product.getPrice(), product.getImage(),
                         product.getRetailer());
                 cartItems.add(orderitem);
             }
@@ -140,14 +139,13 @@ public class MySQLDataStoreUtilities {
         }
         return cartItems;
     }
-    
-    public int storeCustomerOrder(String username){
-   
-                
+
+    public int storeCustomerOrder(String username) {
+
         try {
 
             Connection connection = getConnection();
-            
+
             //GET ORDER ID
             String call = "{call OrderId(?, ?)}";
             CallableStatement cs = connection.prepareCall(call);
@@ -158,39 +156,38 @@ public class MySQLDataStoreUtilities {
 //            if (hadResults) rs = cs.getResultSet();
             int orderId = cs.getInt(2);
             cs.close();
-            
-            
+
             // create a statement and a prep stmt for later
             Statement statement = connection.createStatement();
-            PreparedStatement storeOrder = 
-                connection.prepareStatement("INSERT INTO "
-                    + "OrderItems(orderId, username, "
-                        + "itemId, itemType) Values(?, ?, ?, ?)");
+            PreparedStatement storeOrder
+                    = connection.prepareStatement("INSERT INTO "
+                            + "OrderItems(orderId, username, "
+                            + "itemId, itemType) Values(?, ?, ?, ?)");
 
             //Get all items in cart and store them in orders items table with id
-            String cartItemsQuery = "select * from Cart WHERE username='"+username+"';";
+            String cartItemsQuery = "select * from Cart WHERE username='" + username + "';";
             ResultSet rs = statement.executeQuery(cartItemsQuery);
-            
+
             while (rs.next()) {
                 String itemId = rs.getString("itemId");
                 String itemType = rs.getString("itemType");
-                
+
                 storeOrder.setInt(1, orderId);
                 storeOrder.setString(2, username);
                 storeOrder.setString(3, itemId);
                 storeOrder.setString(4, itemType);
                 storeOrder.executeUpdate();
             }
-            
+
 //            //Clear the cart
             statement.close();
             statement = connection.createStatement();
             String delete = "DELETE FROM Cart WHERE username='" + username + "';";
             statement.executeUpdate(delete);
-            
+
             statement.close();
             connection.close();
-            
+
             return orderId;
 
         } catch (SQLException e) {
@@ -198,7 +195,90 @@ public class MySQLDataStoreUtilities {
         }
 
     }
-  
+
+    public void storePayment(OrderPayment op) {
+        String query = "INSERT INTO OrderPayments Values(?, ?, ?, ?)";
+
+        try {
+            Connection connection = getConnection();
+            PreparedStatement updatePmt = connection.prepareStatement(query);
+            updatePmt.setInt(1, op.getOrderId());
+            updatePmt.setString(2, op.getUserName());
+            updatePmt.setString(3, op.getUserAddress());
+            updatePmt.setString(4, op.getCreditCardNo());
+            updatePmt.executeUpdate();
+
+        } catch (SQLException e) {
+
+        }
+    }
+
+    public void cancelItems(int orderId, String username, String itemId) {
+        String query = "delete from OrderItems where orderId=? AND username=? AND itemId=? LIMIT 1;";
+
+        try {
+            Connection connection = getConnection();
+            PreparedStatement updateOrder = connection.prepareStatement(query);
+            updateOrder.setInt(1, orderId);
+            updateOrder.setString(2, username);
+            updateOrder.setString(3, itemId);
+            updateOrder.executeUpdate();
+            
+        } catch (SQLException e) {
+        }
+
+    }
+    
+    public void cancelEntireOrder(String username, int orderId){
+        // Delete order from Customer orders
+        String custOrd = "DELETE FROM CustomerOrders where orderId=? AND username=? LIMIT 1";
+   
+        //Delete Payment
+        String pmt = "DELETE FROM OrderPayments WHERE orderId=5 AND username=? LIMIT 1";
+        
+        try {
+            Connection connection = getConnection();
+            PreparedStatement delCustOrder = connection.prepareStatement(custOrd);
+            delCustOrder.setInt(1, orderId);
+            delCustOrder.setString(2, username);
+            delCustOrder.executeUpdate();
+            
+            PreparedStatement delPayMethod = connection.prepareStatement(pmt);
+            delPayMethod.setInt(1, orderId);
+            delPayMethod.setString(2, username);
+            delPayMethod.executeUpdate();
+            
+        } catch (SQLException e) {
+        }
+    }
+
+    public ArrayList<OrderItem> getOrderItems(int orderId, String username) {
+        ArrayList<OrderItem> items = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            String query = "SELECT * FROM OrderItems WHERE orderId="
+                    + orderId + " AND username='" + username + "';";
+            Statement getItems = connection.createStatement();
+            ResultSet result = getItems.executeQuery(query);
+
+            while (result.next()) {
+                String itemId = result.getString("itemId");
+                String type = result.getString("itemType");
+                Product product = SaxParserDataStore.allProducts.get(type).get(itemId);
+                OrderItem orderitem = new OrderItem(product.getId(), product.getName(),
+                        product.getPrice(), product.getImage(),
+                        product.getRetailer());
+                items.add(orderitem);
+            }
+            getItems.close();
+            connection.close();
+
+        } catch (SQLException e) {
+
+        }
+
+        return items;
+    }
 
     public static Connection getConnection() {
         Connection connection = null;
