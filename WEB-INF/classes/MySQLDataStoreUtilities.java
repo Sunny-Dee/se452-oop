@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -87,6 +88,53 @@ public class MySQLDataStoreUtilities {
         }
 
         return user;
+    }
+
+    public void saveItemToCart(String username, String itemId, String type, String maker) {
+        String query = "INSERT INTO Cart(username, itemId, itemType, maker) "
+                + "Values('" + username + "', '" + itemId + "', '"
+                + type + "', '" + maker + "');";
+        try {
+
+            Connection connection = getConnection();
+
+            // create a statement
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate(query);
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+
+        }
+    }
+
+    public ArrayList<OrderItem> getItemsFromCart(String username) {
+        String query = "SELECT * FROM Cart WHERE username='"
+                + username + "';";
+        ArrayList<OrderItem> cartItems = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            
+            while (result.next()){
+                String itemId = result.getString("itemId");
+                String type = result.getString("itemType");
+                Product product = SaxParserDataStore
+                        .allProducts.get(type).get(itemId);
+                OrderItem orderitem = new OrderItem(product.getName(), 
+                        product.getPrice(), product.getImage(), 
+                        product.getRetailer());
+                cartItems.add(orderitem);
+            }
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+        }
+        return cartItems;
     }
 
     public static Connection getConnection() {

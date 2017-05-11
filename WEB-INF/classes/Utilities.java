@@ -31,12 +31,15 @@ public class Utilities extends HttpServlet {
     PrintWriter pw;
     String url;
     HttpSession session;
+    MySQLDataStoreUtilities db;
+
 
     public Utilities(HttpServletRequest req, PrintWriter pw) {
         this.req = req;
         this.pw = pw;
         this.url = this.getFullURL();
         this.session = req.getSession(true);
+        db = new MySQLDataStoreUtilities();
     }
 
     /*  Printhtml Function gets the html file name as function Argument,
@@ -148,26 +151,28 @@ public class Utilities extends HttpServlet {
 
     /*  getUser Function checks the user is a customer or retailer or manager and returns the user class variable.*/
     public User getUser() {
-        String usertype = usertype();
-        HashMap<String, User> hm = new HashMap<String, User>();
-        String TOMCAT_HOME = System.getProperty("catalina.home");
-        try {
-            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt"));
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            hm = (HashMap) objectInputStream.readObject();
-        } catch (Exception e) {
-        }
-        User user = hm.get(username());
+        User user = db.getUser(username());
         return user;
     }
 
     /*  getCustomerOrders Function gets  the Orders for the user*/
     public ArrayList<OrderItem> getCustomerOrders() {
         ArrayList<OrderItem> order = new ArrayList<OrderItem>();
+        
+        
+        //TODO CHANGE THIS!!!!!!!! MAKE A METHOD IN DB TO 
+        // GET ITEMS IN THE CUSTOMER CART. 
+        
+        
+        
         if (OrdersHashMap.orders.containsKey(username())) {
             order = OrdersHashMap.orders.get(username());
         }
         return order;
+    }
+    
+    public ArrayList<OrderItem> getCartItems() {
+        return db.getItemsFromCart(username());
     }
 
     /*  getOrdersPaymentSize Function gets  the size of OrderPayment */
@@ -191,29 +196,35 @@ public class Utilities extends HttpServlet {
     /*  CartCount Function gets  the size of User Orders*/
     public int CartCount() {
         if (isLoggedin()) {
-            return getCustomerOrders().size();
+            return getCartItems().size();
         }
         return 0;
     }
 
     /* StoreProduct Function stores the Purchased product in Orders HashMap according to the User Names.*/
-    public void storeProduct(String name, String type, String maker, String acc) {
-        if (!OrdersHashMap.orders.containsKey(username())) {
-            ArrayList<OrderItem> arr = new ArrayList<OrderItem>();
-            OrdersHashMap.orders.put(username(), arr);
-        }
-        ArrayList<OrderItem> orderItems = OrdersHashMap.orders.get(username());
+    public void storeProduct(String itemId, String type, String maker) {
         
-        if (SaxParserDataStore.allProducts.containsKey(type)){
-            Product product = SaxParserDataStore.allProducts.get(type).get(name);
-            OrderItem orderitem = new OrderItem(product.getName(), product.getPrice(), product.getImage(), product.getRetailer());
-            orderItems.add(orderitem);
-        }
+        db.saveItemToCart(username(), itemId, type, maker);
+        
+        
+//        if (!OrdersHashMap.orders.containsKey(username())) {
+//            ArrayList<OrderItem> arr = new ArrayList<OrderItem>();
+//            OrdersHashMap.orders.put(username(), arr);
+//        }
+//        ArrayList<OrderItem> orderItems = OrdersHashMap.orders.get(username());
+//        
+//        if (SaxParserDataStore.allProducts.containsKey(type)){
+//            Product product = SaxParserDataStore.allProducts.get(type).get(itemId);
+//            OrderItem orderitem = new OrderItem(product.getName(), product.getPrice(), product.getImage(), product.getRetailer());
+//            orderItems.add(orderitem);
+//        }
         
 
     }
+    
+    
+   
     // store the payment details for orders
-
     public void storePayment(int orderId,
             String orderName, double orderPrice, String userAddress, String creditCardNo) {
         HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();

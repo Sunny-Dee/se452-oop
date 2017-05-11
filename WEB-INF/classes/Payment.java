@@ -36,9 +36,7 @@ public class Payment extends HttpServlet {
 
 		for (OrderItem oi : utility.getCustomerOrders())
 		{
-
 			//set the parameter for each column and execute the prepared statement
-
 			utility.storePayment(orderId,oi.getName(),oi.getPrice(),userAddress,creditCardNo);
 		}
 
