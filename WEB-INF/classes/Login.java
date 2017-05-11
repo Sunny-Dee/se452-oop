@@ -26,22 +26,7 @@ public class Login extends HttpServlet {
 		password are validated and added to session variable and display Login Function is called */
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String usertype = request.getParameter("usertype");
-//        HashMap<String, User> hm = new HashMap<String, User>();
-//        String TOMCAT_HOME = System.getProperty("catalina.home");
-        //user details are validated using a file 
-        //if the file containts username and passoword user entered user will be directed to home page
-        //else error message will be shown
-//        try {
-//            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt"));
-//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//            hm = (HashMap) objectInputStream.readObject();
-//        } catch (Exception e) {
-//
-//        }
-        
-        
-        
+
         MySQLDataStoreUtilities db = new MySQLDataStoreUtilities();
         User user = db.getUser(username);  //user = hm.get(username);
         

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
 
 @WebServlet("/Registration")
 
@@ -42,51 +41,17 @@ public class Registration extends HttpServlet {
         if (!password.equals(repassword)) {
             error_msg = "Passwords doesn't match!";
         } else {
-            
-            User user = db.getUser(username); 
-            
-            if (user != null){
+
+            User user = db.getUser(username);
+
+            if (user != null) {
                 error_msg = "Username already exist as " + user.getUsertype();
             } else {
                 user = new User(username, password, usertype);
                 String message = db.addUser(user);
-            
-
-//            HashMap<String, User> hm = new HashMap<String, User>();
-//            String TOMCAT_HOME = System.getProperty("catalina.home");
-//
-//            //get the user details from file 
-//            try {
-//                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt"));
-//                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//                hm = (HashMap) objectInputStream.readObject();
-//                
-//            } catch (Exception e) {
-//
-//            }
-
-            // if the user already exist show error that already exist
-//            if (hm.containsKey(username)) {
-//                error_msg = "Username already exist as " + usertype;
-//            } else {
-//                /*create a user object and store details into hashmap
-//				store the user hashmap into file  */
-//
-//                User user = new User(username, password, usertype);
-//                hm.put(username, user);
-//                FileOutputStream fileOutputStream = new FileOutputStream(TOMCAT_HOME + "\\webapps\\BestDeal\\UserDetails.txt");
-//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-//                objectOutputStream.writeObject(hm);
-//                objectOutputStream.flush();
-//                objectOutputStream.close();
-//                fileOutputStream.close();
                 HttpSession session = request.getSession(true);
-//                
-//                
-//                String message = db.addUserQuery(user);
-                
-                
-                session.setAttribute("login_msg", "Your " + usertype + " "+ message);//" account has been created. Please login");
+
+                session.setAttribute("login_msg", "Your " + usertype + " " + message);//" account has been created. Please login");
                 if (!utility.isLoggedin()) {
                     response.sendRedirect("Login");
                     return;
