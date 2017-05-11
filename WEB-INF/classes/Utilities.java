@@ -33,7 +33,6 @@ public class Utilities extends HttpServlet {
     HttpSession session;
     MySQLDataStoreUtilities db;
 
-
     public Utilities(HttpServletRequest req, PrintWriter pw) {
         this.req = req;
         this.pw = pw;
@@ -58,21 +57,21 @@ public class Utilities extends HttpServlet {
                         + "<li><a>Hello, " + username + "</a></li>"
                         + "<li><a href='Account'>Account</a></li>"
                         + "<li><a href='Logout'>Logout</a></li>";
-                
-                if (usertype.equals("retailer")){  //Store Manager
+
+                if (usertype.equals("retailer")) {  //Store Manager
                     //Store Manager can Add/Delete/Update products
                     result = result + "<li><a href='ManageInventory'>Manage Inventory</a></li>";
-                } else if (usertype.equals("manager")){
+                } else if (usertype.equals("manager")) {
                     // Manager can  can create Customer accounts and can Add/Delete/Update customers’ orders
-                    result = result 
+                    result = result
                             + "<li><a href='ManagerCustomers'>Manage Customers</a></li>"
                             + "<li><a href='ManagerOrders'>Orders</a></li>";
                 }
-                
+
             } else {
                 result = result + "<li><a href='ViewOrder'>View Order</a></li>" + "<li><a href='Login'>Login</a></li>";
             }
-            result = result + "<li><a href='Cart'>Cart(" + CartCount() + ")</a></li></ul></div></div><div id='page'>";
+            result = result + "<li><a href='Cart'>Cart (" + CartCount() + ")</a></li></ul></div></div><div id='page'>";
             pw.print(result);
         } else {
             pw.print(result);
@@ -125,6 +124,10 @@ public class Utilities extends HttpServlet {
         session.removeAttribute("usertype");
     }
 
+    public String formatDollars(double total) {
+        return "$" + String.format("%1$,.2f", total);
+    }
+
     /*  logout Function checks whether the user is loggedIn or Not*/
     public boolean isLoggedin() {
         if (session.getAttribute("username") == null) {
@@ -156,25 +159,23 @@ public class Utilities extends HttpServlet {
     }
 
     /*  getCustomerOrders Function gets  the Orders for the user*/
-    public ArrayList<OrderItem> getCustomerOrders() {
-        ArrayList<OrderItem> order = new ArrayList<OrderItem>();
-        
-        
-        //TODO CHANGE THIS!!!!!!!! MAKE A METHOD IN DB TO 
-        // GET ITEMS IN THE CUSTOMER CART. 
-        
-        
-        
-        if (OrdersHashMap.orders.containsKey(username())) {
-            order = OrdersHashMap.orders.get(username());
-        }
-        return order;
-    }
-    
+//    public ArrayList<OrderItem> getCustomerOrders() {
+//        ArrayList<OrderItem> order = new ArrayList<OrderItem>();
+//
+//        //TODO CHANGE THIS!!!!!!!! MAKE A METHOD IN DB TO 
+//        // GET ITEMS IN THE CUSTOMER CART. 
+//        if (OrdersHashMap.orders.containsKey(username())) {
+//            order = OrdersHashMap.orders.get(username());
+//        }
+//        return order;
+//    }
+
     public ArrayList<OrderItem> getCartItems() {
         return db.getItemsFromCart(username());
     }
 
+    
+    //  ---------------TODO: delete this method ------------------------/
     /*  getOrdersPaymentSize Function gets  the size of OrderPayment */
     public int getOrderPaymentSize() {
         HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
@@ -192,6 +193,19 @@ public class Utilities extends HttpServlet {
         }
         return size;
     }
+    
+    
+    
+    
+    
+    
+    public int getOrderId(){
+        return db.storeCustomerOrder(username());
+    }
+    
+    
+    
+    
 
     /*  CartCount Function gets  the size of User Orders*/
     public int CartCount() {
@@ -203,10 +217,9 @@ public class Utilities extends HttpServlet {
 
     /* StoreProduct Function stores the Purchased product in Orders HashMap according to the User Names.*/
     public void storeProduct(String itemId, String type, String maker) {
-        
+
         db.saveItemToCart(username(), itemId, type, maker);
-        
-        
+
 //        if (!OrdersHashMap.orders.containsKey(username())) {
 //            ArrayList<OrderItem> arr = new ArrayList<OrderItem>();
 //            OrdersHashMap.orders.put(username(), arr);
@@ -218,12 +231,8 @@ public class Utilities extends HttpServlet {
 //            OrderItem orderitem = new OrderItem(product.getName(), product.getPrice(), product.getImage(), product.getRetailer());
 //            orderItems.add(orderitem);
 //        }
-        
-
     }
-    
-    
-   
+
     // store the payment details for orders
     public void storePayment(int orderId,
             String orderName, double orderPrice, String userAddress, String creditCardNo) {
@@ -263,8 +272,4 @@ public class Utilities extends HttpServlet {
         }
     }
 
-
 }
-
-	
-

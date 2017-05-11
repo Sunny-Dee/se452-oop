@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -94,6 +96,7 @@ public class MySQLDataStoreUtilities {
         String query = "INSERT INTO Cart(username, itemId, itemType, maker) "
                 + "Values('" + username + "', '" + itemId + "', '"
                 + type + "', '" + maker + "');";
+        
         try {
 
             Connection connection = getConnection();
@@ -135,6 +138,70 @@ public class MySQLDataStoreUtilities {
         } catch (SQLException e) {
         }
         return cartItems;
+    }
+    
+    public int storeCustomerOrder(String username){
+   
+                
+        try {
+
+            Connection connection = getConnection();
+            
+            //GET ORDER ID
+            String call = "{call OrderId(?, ?)}";
+            CallableStatement cs = connection.prepareCall(call);
+            cs.setString(1, username);
+            cs.registerOutParameter(2, Types.INTEGER);
+            cs.execute();
+//            ResultSet rs = null;
+//            if (hadResults) rs = cs.getResultSet();
+            int orderId = cs.getInt(2);
+            
+            
+            
+            cs.close();
+            // create a statement  
+//            Statement statement = connection.createStatement();
+//            //Get order id
+//            String orderIdQuery = "SELECT COUNT(*) AS total FROM customerorders;";
+//            ResultSet r = statement.executeQuery(orderIdQuery);
+//            int orderId = r.getInt("total");
+//            orderId++;
+//            
+//            //Get all items in cart and store them in orders items table with id
+//            String cartItemsQuery = "SELECT * FROM Cart WHERE username='"
+//                + username + "';";
+//            r = statement.executeQuery(cartItemsQuery);
+//      
+//            
+//            while(r.next()){
+//                String orderItems = "INSERT INTO OrderItems Values("
+//                        + orderId +", '"+ username +"', '"
+//                        + r.getNString("itemId") +"', '"
+//                        + r.getNString("itemType")+"');";
+//                statement.executeUpdate(orderItems);
+//            
+//            }
+//            
+//            //Add the new order to summary orders table
+//            String insertOrder = "INSERT INTO CustomerOrders "
+//                    + "(orderId, username) Values("+ orderId +", "
+//                    + "'" + username + "');";
+//            statement.executeUpdate(insertOrder);
+//            
+//            //Clear the cart
+//            String delete = "DELETE FROM Cart WHERE username='" + username+ "';";
+//            statement.executeUpdate(delete);
+            
+//            statement.close();
+            connection.close();
+            
+            return orderId;
+
+        } catch (SQLException e) {
+            return -1;
+        }
+
     }
 
     public static Connection getConnection() {

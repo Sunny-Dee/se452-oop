@@ -30,11 +30,12 @@ public class Payment extends HttpServlet {
 
 		String userAddress=request.getParameter("userAddress");
 		String creditCardNo=request.getParameter("creditCardNo");
-		int orderId=utility.getOrderPaymentSize()+1;
+//		int orderId=utility.getOrderPaymentSize()+1;
+                int orderId = utility.getOrderId();
 
 		//iterate through each order
 
-		for (OrderItem oi : utility.getCustomerOrders())
+		for (OrderItem oi : utility.getCartItems())
 		{
 			//set the parameter for each column and execute the prepared statement
 			utility.storePayment(orderId,oi.getName(),oi.getPrice(),userAddress,creditCardNo);

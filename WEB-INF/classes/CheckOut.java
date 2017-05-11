@@ -48,16 +48,17 @@ public class CheckOut extends HttpServlet {
             pw.print(userName);
             pw.print("</td></tr>");
             // for each order iterate and display the order name price
-            for (OrderItem oi : utility.getCustomerOrders()) {
+            for (OrderItem oi : utility.getCartItems()) {
                 pw.print("<tr><td> Product Purchased:</td><td>");
                 pw.print(oi.getName() + "</td></tr><tr><td>");
                 pw.print("<input type='hidden' name='orderPrice' value='" + oi.getPrice() + "'>");
                 pw.print("<input type='hidden' name='orderName' value='" + oi.getName() + "'>");
-                pw.print("Product Price:</td><td>" + oi.getPrice());
+                pw.print("Product Price:</td><td>" + utility.formatDollars(oi.getPrice()));
                 pw.print("</td></tr>");
             }
             pw.print("<tr><td>");
-            pw.print("Total Order Cost</td><td>" + orderTotal);
+            pw.print("Total Order Cost</td><td>" 
+                    + utility.formatDollars(Double.parseDouble(orderTotal)));
             pw.print("<input type='hidden' name='orderTotal' value='" + orderTotal + "'>");
             pw.print("</td></tr></table><table><tr></tr><tr></tr>");
             pw.print("<tr><td>");

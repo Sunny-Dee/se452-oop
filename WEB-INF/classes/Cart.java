@@ -59,7 +59,7 @@ public class Cart extends HttpServlet {
             for (OrderItem oi : items) {
                 pw.print("<tr>");
                 pw.print("<td>" + i + ".</td><td>" + oi.getName() + "</td><td> " 
-                        + formatDollars(oi.getPrice()) + "</td>");
+                        + utility.formatDollars(oi.getPrice()) + "</td>");
                 pw.print("<input type='hidden' name='orderName' value='" + oi.getName() + "'>");
                 pw.print("<input type='hidden' name='orderPrice' value='" + oi.getPrice() + "'>");
                 pw.print("</tr>");
@@ -67,7 +67,8 @@ public class Cart extends HttpServlet {
                 i++;
             }
             pw.print("<input type='hidden' name='orderTotal' value='" + total + "'>");
-            pw.print("<tr><th></th><th>Total</th><th>" + formatDollars(total) + "</th>");
+            pw.print("<tr><th></th><th>Total</th><th>" 
+                    + utility.formatDollars(total) + "</th>");
             pw.print("<tr><td></td><td></td><td><input type='submit' name='CheckOut' value='CheckOut' class='btnbuy'></td>");
             pw.print("</table>");
         } else {
@@ -86,8 +87,6 @@ public class Cart extends HttpServlet {
     }
     
     
-    private String formatDollars(double total){
-       return String.format("%1$,.2f", total);
-    }
+
         
 }
