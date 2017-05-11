@@ -7,6 +7,7 @@
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -156,44 +157,38 @@ public class MySQLDataStoreUtilities {
 //            ResultSet rs = null;
 //            if (hadResults) rs = cs.getResultSet();
             int orderId = cs.getInt(2);
-            
-            
-            
             cs.close();
-            // create a statement  
-//            Statement statement = connection.createStatement();
-//            //Get order id
-//            String orderIdQuery = "SELECT COUNT(*) AS total FROM customerorders;";
-//            ResultSet r = statement.executeQuery(orderIdQuery);
-//            int orderId = r.getInt("total");
-//            orderId++;
-//            
-//            //Get all items in cart and store them in orders items table with id
-//            String cartItemsQuery = "SELECT * FROM Cart WHERE username='"
-//                + username + "';";
-//            r = statement.executeQuery(cartItemsQuery);
-//      
-//            
-//            while(r.next()){
-//                String orderItems = "INSERT INTO OrderItems Values("
-//                        + orderId +", '"+ username +"', '"
-//                        + r.getNString("itemId") +"', '"
-//                        + r.getNString("itemType")+"');";
-//                statement.executeUpdate(orderItems);
-//            
-//            }
-//            
-//            //Add the new order to summary orders table
-//            String insertOrder = "INSERT INTO CustomerOrders "
-//                    + "(orderId, username) Values("+ orderId +", "
-//                    + "'" + username + "');";
-//            statement.executeUpdate(insertOrder);
-//            
-//            //Clear the cart
-//            String delete = "DELETE FROM Cart WHERE username='" + username+ "';";
-//            statement.executeUpdate(delete);
             
-//            statement.close();
+            
+            // create a statement and a prep stmt for later
+            Statement statement = connection.createStatement();
+            PreparedStatement storeOrder = 
+                connection.prepareStatement("INSERT INTO "
+                    + "OrderItems(orderId, username, "
+                        + "itemId, itemType) Values(?, ?, ?, ?)");
+
+            //Get all items in cart and store them in orders items table with id
+            String cartItemsQuery = "select * from Cart WHERE username='"+username+"';";
+            ResultSet rs = statement.executeQuery(cartItemsQuery);
+            
+            while (rs.next()) {
+                String itemId = rs.getString("itemId");
+                String itemType = rs.getString("itemType");
+                
+                storeOrder.setInt(1, orderId);
+                storeOrder.setString(2, username);
+                storeOrder.setString(3, itemId);
+                storeOrder.setString(4, itemType);
+                storeOrder.executeUpdate();
+            }
+            
+//            //Clear the cart
+            statement.close();
+            statement = connection.createStatement();
+            String delete = "DELETE FROM Cart WHERE username='" + username + "';";
+            statement.executeUpdate(delete);
+            
+            statement.close();
             connection.close();
             
             return orderId;
@@ -203,6 +198,7 @@ public class MySQLDataStoreUtilities {
         }
 
     }
+  
 
     public static Connection getConnection() {
         Connection connection = null;

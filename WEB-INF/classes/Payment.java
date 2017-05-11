@@ -31,8 +31,7 @@ public class Payment extends HttpServlet {
 		String userAddress=request.getParameter("userAddress");
 		String creditCardNo=request.getParameter("creditCardNo");
 //		int orderId=utility.getOrderPaymentSize()+1;
-                int orderId = utility.getOrderId();
-
+                int orderId = utility.storeAndGetOrderId();
 		//iterate through each order
 
 		for (OrderItem oi : utility.getCartItems())
@@ -60,9 +59,7 @@ public class Payment extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setContentType("text/html");
-		PrintWriter pw = response.getWriter();
-		Utilities utility = new Utilities(request, pw);
-		
+		PrintWriter pw = response.getWriter();		
 		
 	}
 }

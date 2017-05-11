@@ -177,29 +177,29 @@ public class Utilities extends HttpServlet {
     
     //  ---------------TODO: delete this method ------------------------/
     /*  getOrdersPaymentSize Function gets  the size of OrderPayment */
-    public int getOrderPaymentSize() {
-        HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
-        String TOMCAT_HOME = System.getProperty("catalina.home");
-        try {
-            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            orderPayments = (HashMap) objectInputStream.readObject();
-        } catch (Exception e) {
-
-        }
-        int size = 0;
-        for (Map.Entry<Integer, ArrayList<OrderPayment>> entry : orderPayments.entrySet()) {
-            size = entry.getKey();
-        }
-        return size;
-    }
+//    public int getOrderPaymentSize() {
+//        HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
+//        String TOMCAT_HOME = System.getProperty("catalina.home");
+//        try {
+//            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
+//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+//            orderPayments = (HashMap) objectInputStream.readObject();
+//        } catch (Exception e) {
+//
+//        }
+//        int size = 0;
+//        for (Map.Entry<Integer, ArrayList<OrderPayment>> entry : orderPayments.entrySet()) {
+//            size = entry.getKey();
+//        }
+//        return size;
+//    }
     
     
     
     
     
     
-    public int getOrderId(){
+    public int storeAndGetOrderId(){
         return db.storeCustomerOrder(username());
     }
     
