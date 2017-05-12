@@ -64,7 +64,7 @@ public class Utilities extends HttpServlet {
                 } else if (usertype.equals("manager")) {
                     // Manager can  can create Customer accounts and can Add/Delete/Update customers’ orders
                     result = result
-                            + "<li><a href='ManagerCustomers'>Manage Customers</a></li>"
+                            + "<li><a href='ManageCustomers'>Manage Users</a></li>"
                             + "<li><a href='ManagerOrders'>Orders</a></li>";
                 }
 

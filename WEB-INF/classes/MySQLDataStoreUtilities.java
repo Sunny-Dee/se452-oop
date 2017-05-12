@@ -58,6 +58,46 @@ public class MySQLDataStoreUtilities {
         return response;
     }
 
+    public void deleteUser(String username) {
+        String query = "DELETE FROM Customers WHERE username='"
+                + username + "' LIMIT 1;";
+
+        try {
+            Connection connection = getConnection();
+
+            // create a statement
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+    }
+    
+    public String updateUser(String ogUsername, User user){
+        String updateStmt = "UPDATE Customers SET username=?, usertype=?, password=? WHERE username=?";
+        try {
+            Connection connection = getConnection();
+            PreparedStatement updateUser = connection.prepareStatement(updateStmt);
+            updateUser.setString(1, user.getName());
+            updateUser.setString(2, user.getUsertype());
+            updateUser.setString(3, user.getPassword());
+            updateUser.setString(4, ogUsername);
+            
+            int result = updateUser.executeUpdate();
+            updateUser.close();
+            connection.close();
+            
+            return "Success " +  result;
+        } catch (SQLException e) {
+            return e.getMessage();
+        }
+    
+    }
+
     public User getUser(String username) {
         String query = "SELECT * FROM Customers WHERE username='"
                 + username + "';";
@@ -91,6 +131,38 @@ public class MySQLDataStoreUtilities {
         }
 
         return user;
+    }
+
+    public ArrayList<User> getAllUsers() {
+        String query = "SELECT * FROM Customers";
+        ArrayList<User> users = new ArrayList<>();
+
+        try {
+
+            Connection connection = getConnection();
+
+            // create a statement
+            Statement statement = connection.createStatement();
+
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                String username = result.getString("username");
+                String password = result.getString("password");
+                String usertype = result.getString("usertype");
+                User user = new User(username, password, usertype);
+                users.add(user);
+            }
+
+            statement.close();
+            connection.close();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+        }
+
+        return users;
     }
 
     public void saveItemToCart(String username, String itemId, String type, String maker) {
@@ -207,7 +279,9 @@ public class MySQLDataStoreUtilities {
             updatePmt.setString(3, op.getUserAddress());
             updatePmt.setString(4, op.getCreditCardNo());
             updatePmt.executeUpdate();
-
+            
+            updatePmt.close();
+            connection.close();
         } catch (SQLException e) {
 
         }
@@ -224,30 +298,35 @@ public class MySQLDataStoreUtilities {
             updateOrder.setString(3, itemId);
             updateOrder.executeUpdate();
             
+            updateOrder.close();
+            connection.close();
         } catch (SQLException e) {
         }
 
     }
-    
-    public void cancelEntireOrder(String username, int orderId){
+
+    public void cancelEntireOrder(String username, int orderId) {
         // Delete order from Customer orders
         String custOrd = "DELETE FROM CustomerOrders where orderId=? AND username=? LIMIT 1";
-   
+
         //Delete Payment
         String pmt = "DELETE FROM OrderPayments WHERE orderId=5 AND username=? LIMIT 1";
-        
+
         try {
             Connection connection = getConnection();
             PreparedStatement delCustOrder = connection.prepareStatement(custOrd);
             delCustOrder.setInt(1, orderId);
             delCustOrder.setString(2, username);
             delCustOrder.executeUpdate();
-            
+
             PreparedStatement delPayMethod = connection.prepareStatement(pmt);
             delPayMethod.setInt(1, orderId);
             delPayMethod.setString(2, username);
             delPayMethod.executeUpdate();
-            
+
+            delCustOrder.close();
+            delPayMethod.close();
+            connection.close();
         } catch (SQLException e) {
         }
     }

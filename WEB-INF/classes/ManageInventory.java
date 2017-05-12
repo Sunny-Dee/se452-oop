@@ -42,14 +42,14 @@ public class ManageInventory extends HttpServlet {
         //check if the user is logged in
         if (!utility.isLoggedin() || !utility.usertype().equals("retailer")) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("login_msg", "Please Login to View your Orders");
+            session.setAttribute("login_msg", "Please Login to view your inventory");
             response.sendRedirect("Login");
             return;
         }
 
-        String username = utility.username();
         utility.printHtml("Header.html");
         utility.printHtml("LeftNavigationBar.html");
+        
 
         if (productType == null) {
             pw.print("<form name ='ManageInventory' action='ManageInventory' method='get'>");
