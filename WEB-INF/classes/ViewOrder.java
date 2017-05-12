@@ -45,17 +45,6 @@ public class ViewOrder extends HttpServlet {
             pw.print("<td><input type='submit' name='Order' value='ViewOrder' class='btnbuy'></td></tr></table>");
         }
 
-        //hashmap gets all the order details from file 
-//        HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
-//        String TOMCAT_HOME = System.getProperty("catalina.home");
-
-//        try {
-//            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//            orderPayments = (HashMap) objectInputStream.readObject();
-//        } catch (Exception e) {
-//        }
-
 
         /*if order button is clicked that is user provided a order number to view order 
 		order details will be fetched and displayed in  a table 
@@ -66,26 +55,12 @@ public class ViewOrder extends HttpServlet {
             
             
             
-            //get the order details from file
-//            try {
-//                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-//                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//                orderPayments = (HashMap) objectInputStream.readObject();
-//            } catch (Exception e) {
-//
-//            }
             ArrayList<OrderItem> items = db.getOrderItems(orderId, username);
             int size = items.size();
 
             /*get the order size and check if there exist an order with given order number 
 			if there is no order present give a message no order stored with this id */
-//            if (orderPayments.get(orderId) != null) {
-//                for (OrderPayment od : orderPayments.get(orderId)) {
-//                    if (od.getUserName().equals(username)) {
-//                        size = orderPayments.get(orderId).size();
-//                    }
-//                }
-//            }
+
             // display the orders if there exist order with order id
             if (size > 0) {
                 pw.print("<table  class='gridtable'>");
@@ -117,46 +92,13 @@ public class ViewOrder extends HttpServlet {
             
             db.cancelItems(orderId, username, itemId);
             pw.print("<h4 style='color:red'>Your Order is Cancelled</h4>");
-//            ArrayList<OrderPayment> ListOrderPayment = new ArrayList<OrderPayment>();
-                
-            //get the order from file
-//            try {
-//
-//                FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-//                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//                orderPayments = (HashMap) objectInputStream.readObject();
-//            } catch (Exception e) {
-//
-//            }
-            //get the exact order with same ordername and add it into cancel list to remove it later
-            
-            
-            
-//            for (OrderItem oi : db.getOrderItems(orderId, username)) {
-//                if (oi.getId().equals(itemId)) {
-//                    db.cancelItems(orderId, username, itemId);
-//                    pw.print("<h4 style='color:red'>Your Order is Cancelled</h4>");
-//                }
-//            }
-            
-            
+
             
             //remove all the orders from hashmap that exist in cancel list
-//            orderPayments.get(orderId).removeAll(ListOrderPayment);
             if (db.getOrderItems(orderId, username).size() == 0) {
                 db.cancelEntireOrder(username, orderId);
             }
-            //save the updated hashmap with removed order to the file	
-//            try {
-//                FileOutputStream fileOutputStream = new FileOutputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-//                objectOutputStream.writeObject(orderPayments);
-//                objectOutputStream.flush();
-//                objectOutputStream.close();
-//                fileOutputStream.close();
-//            } catch (Exception e) {
-//
-//            }
+
         }
         pw.print("</form></div></div></div>");
         utility.printHtml("Footer.html");

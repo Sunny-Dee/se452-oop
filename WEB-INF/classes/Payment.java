@@ -29,7 +29,10 @@ public class Payment extends HttpServlet {
         String userAddress = request.getParameter("userAddress");
         String creditCardNo = request.getParameter("creditCardNo");
 
-        //TODO if orderId < 1 create an error message. 
+        
+        //TODO if orderId < 1 create an error message.
+        /*This function clears the cart and moves all cart items to 
+        the orders table */
         int orderId = utility.storeAndGetOrderId();
         //iterate through each order
         utility.storePayment(orderId, userAddress, creditCardNo);
@@ -39,8 +42,6 @@ public class Payment extends HttpServlet {
 //            utility.storePayment(orderId, userAddress, creditCardNo);
 //        }
 
-        //remove the order details from cart after processing
-        OrdersHashMap.orders.remove(utility.username());
         utility.printHtml("Header.html");
         utility.printHtml("LeftNavigationBar.html");
         pw.print("<div id='content'><div class='post'><h2 class='title meta'>");

@@ -143,6 +143,7 @@ public class Utilities extends HttpServlet {
         }
         return null;
     }
+    
 
     /*  usertype Function returns the usertype from the session variable.*/
     public String usertype() {
@@ -158,53 +159,14 @@ public class Utilities extends HttpServlet {
         return user;
     }
 
-    /*  getCustomerOrders Function gets  the Orders for the user*/
-//    public ArrayList<OrderItem> getCustomerOrders() {
-//        ArrayList<OrderItem> order = new ArrayList<OrderItem>();
-//
-//        //TODO CHANGE THIS!!!!!!!! MAKE A METHOD IN DB TO 
-//        // GET ITEMS IN THE CUSTOMER CART. 
-//        if (OrdersHashMap.orders.containsKey(username())) {
-//            order = OrdersHashMap.orders.get(username());
-//        }
-//        return order;
-//    }
-
     public ArrayList<OrderItem> getCartItems() {
         return db.getItemsFromCart(username());
     }
 
     
-    //  ---------------TODO: delete this method ------------------------/
-    /*  getOrdersPaymentSize Function gets  the size of OrderPayment */
-//    public int getOrderPaymentSize() {
-//        HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
-//        String TOMCAT_HOME = System.getProperty("catalina.home");
-//        try {
-//            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//            orderPayments = (HashMap) objectInputStream.readObject();
-//        } catch (Exception e) {
-//
-//        }
-//        int size = 0;
-//        for (Map.Entry<Integer, ArrayList<OrderPayment>> entry : orderPayments.entrySet()) {
-//            size = entry.getKey();
-//        }
-//        return size;
-//    }
-    
-    
-    
-    
-    
     public int storeAndGetOrderId(){
         return db.storeCustomerOrder(username());
     }
-    
-    
-    
-    
 
     /*  CartCount Function gets  the size of User Orders*/
     public int CartCount() {
@@ -219,17 +181,6 @@ public class Utilities extends HttpServlet {
 
         db.saveItemToCart(username(), itemId, type, maker);
 
-//        if (!OrdersHashMap.orders.containsKey(username())) {
-//            ArrayList<OrderItem> arr = new ArrayList<OrderItem>();
-//            OrdersHashMap.orders.put(username(), arr);
-//        }
-//        ArrayList<OrderItem> orderItems = OrdersHashMap.orders.get(username());
-//        
-//        if (SaxParserDataStore.allProducts.containsKey(type)){
-//            Product product = SaxParserDataStore.allProducts.get(type).get(itemId);
-//            OrderItem orderitem = new OrderItem(product.getName(), product.getPrice(), product.getImage(), product.getRetailer());
-//            orderItems.add(orderitem);
-//        }
     }
 
     // store the payment details for orders
@@ -238,40 +189,12 @@ public class Utilities extends HttpServlet {
         OrderPayment orderpayment = new OrderPayment(orderId, username(), userAddress, creditCardNo);
         db.storePayment(orderpayment);
         
-//        HashMap<Integer, ArrayList<OrderPayment>> orderPayments = new HashMap<Integer, ArrayList<OrderPayment>>();
-//        String TOMCAT_HOME = System.getProperty("catalina.home");
-//        // get the payment details file
-//        try {
-//            FileInputStream fileInputStream = new FileInputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//            orderPayments = (HashMap) objectInputStream.readObject();
-//        } catch (Exception e) {
-//
-//        }
-//        if (orderPayments == null) {
-//            orderPayments = new HashMap<>();
-//        }
-//        // if there exist order id already add it into same list for order id or create a new record with order id
-//
-//        if (!orderPayments.containsKey(orderId)) {
-//            ArrayList<OrderPayment> arr = new ArrayList<>();
-//            orderPayments.put(orderId, arr);
-//        }
-//        ArrayList<OrderPayment> listOrderPayment = orderPayments.get(orderId);
-//        
-//        listOrderPayment.add(orderpayment);
-//
-//        // add order details into file
-//        try {
-//            FileOutputStream fileOutputStream = new FileOutputStream(new File(TOMCAT_HOME + "\\webapps\\BestDeal\\PaymentDetails.txt"));
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-//            objectOutputStream.writeObject(orderPayments);
-//            objectOutputStream.flush();
-//            objectOutputStream.close();
-//            fileOutputStream.close();
-//        } catch (Exception e) {
-//            System.out.println("inside exception file not written properly");
-//        }
     }
-
+    
+    public void deleteItem(String itemId, String itemtype){
+        if (usertype().equals("retailer")){
+            HashMap<String, Product> map = SaxParserDataStore.allProducts.get(itemtype);
+            map.remove(itemId);
+        }
+    }
 }

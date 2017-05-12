@@ -32,6 +32,7 @@ p,ul,ol {
 	text-align: justify;
 }
 
+
 /* Header Line Segment Display */
 hr {
 	display: none;
@@ -383,6 +384,15 @@ hr {
 	margin-right: auto;
 }
 
+#update_item {
+	border-radius: 5px;
+	border: 1px solid #58ACFA;
+	padding: 4px;
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /*  Unordered List of Items in the Store Display */
 
 #shop_item ul {
@@ -392,9 +402,26 @@ hr {
 	border: none;
 }
 
+#update_item ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: none;
+}
+
+#update_item label {
+  display: inline-block;
+  width: 140px;
+  text-align: right;
+}​
+
 /*  Unordered List of Items and List Tags in the Store Display */
 
 #shop_item ul li {
+	margin-bottom: 5px;
+}
+
+#update_item ul li {
 	margin-bottom: 5px;
 }
 
@@ -407,6 +434,15 @@ hr {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+#update_item  img {
+	display: block;
+	width: 180px;
+	height: 180px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 
 /* Decoration for Display of Products in the Store  */
 
