@@ -55,7 +55,7 @@ public class ViewOrder extends HttpServlet {
             
             
             
-            ArrayList<OrderItem> items = db.getOrderItems(orderId, username);
+            ArrayList<OrderItem> items = db.getOrderItems(orderId);
             int size = items.size();
 
             /*get the order size and check if there exist an order with given order number 
@@ -90,12 +90,12 @@ public class ViewOrder extends HttpServlet {
             orderId = Integer.parseInt(request.getParameter("orderId"));
             String itemId = request.getParameter("itemId");
             
-            db.cancelItems(orderId, username, itemId);
+            db.cancelItems(orderId, itemId);
             pw.print("<h4 style='color:red'>Your Order is Cancelled</h4>");
 
             
             //remove all the orders from hashmap that exist in cancel list
-            if (db.getOrderItems(orderId, username).size() == 0) {
+            if (db.getOrderItems(orderId).size() == 0) {
                 db.cancelEntireOrder(username, orderId);
             }
 

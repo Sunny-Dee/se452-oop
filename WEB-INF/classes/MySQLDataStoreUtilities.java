@@ -76,8 +76,8 @@ public class MySQLDataStoreUtilities {
             e.printStackTrace();
         }
     }
-    
-    public String updateUser(String ogUsername, User user){
+
+    public String updateUser(String ogUsername, User user) {
         String updateStmt = "UPDATE Customers SET username=?, usertype=?, password=? WHERE username=?";
         try {
             Connection connection = getConnection();
@@ -86,16 +86,16 @@ public class MySQLDataStoreUtilities {
             updateUser.setString(2, user.getUsertype());
             updateUser.setString(3, user.getPassword());
             updateUser.setString(4, ogUsername);
-            
+
             int result = updateUser.executeUpdate();
             updateUser.close();
             connection.close();
-            
-            return "Success " +  result;
+
+            return "Success " + result;
         } catch (SQLException e) {
             return e.getMessage();
         }
-    
+
     }
 
     public User getUser(String username) {
@@ -279,7 +279,7 @@ public class MySQLDataStoreUtilities {
             updatePmt.setString(3, op.getUserAddress());
             updatePmt.setString(4, op.getCreditCardNo());
             updatePmt.executeUpdate();
-            
+
             updatePmt.close();
             connection.close();
         } catch (SQLException e) {
@@ -287,19 +287,25 @@ public class MySQLDataStoreUtilities {
         }
     }
 
-    public void cancelItems(int orderId, String username, String itemId) {
-        String query = "delete from OrderItems where orderId=? AND username=? AND itemId=? LIMIT 1;";
+    public void cancelItems(int orderId, String itemId) {
+        String query = "delete from OrderItems where orderId=? AND itemId=? LIMIT 1;";
 
         try {
             Connection connection = getConnection();
             PreparedStatement updateOrder = connection.prepareStatement(query);
             updateOrder.setInt(1, orderId);
-            updateOrder.setString(2, username);
-            updateOrder.setString(3, itemId);
+            updateOrder.setString(2, itemId);
             updateOrder.executeUpdate();
+
+            boolean isEmpty = checkEmpty(orderId, connection);
+            if (isEmpty){
+                cancelEntireOrder(username, orderId);
+            }
             
             updateOrder.close();
             connection.close();
+            
+           
         } catch (SQLException e) {
         }
 
@@ -307,10 +313,10 @@ public class MySQLDataStoreUtilities {
 
     public void cancelEntireOrder(String username, int orderId) {
         // Delete order from Customer orders
-        String custOrd = "DELETE FROM CustomerOrders where orderId=? AND username=? LIMIT 1";
+        String custOrd = "DELETE FROM CustomerOrders where orderId=? AND username=?";
 
         //Delete Payment
-        String pmt = "DELETE FROM OrderPayments WHERE orderId=5 AND username=? LIMIT 1";
+        String pmt = "DELETE FROM OrderPayments WHERE orderId=? AND username=?";
 
         try {
             Connection connection = getConnection();
@@ -327,18 +333,41 @@ public class MySQLDataStoreUtilities {
             delCustOrder.close();
             delPayMethod.close();
             connection.close();
+
         } catch (SQLException e) {
         }
     }
 
-    public ArrayList<OrderItem> getOrderItems(int orderId, String username) {
+    private boolean checkEmpty(int orderid, Connection connection) {
+        String query = "select * from OrderItems where orderId=?";
+
+        try {
+            PreparedStatement updateOrder = connection.prepareStatement(query);
+            updateOrder.setInt(1, orderid);
+            ResultSet result = updateOrder.executeQuery();
+            
+            updateOrder.close();
+            if (result.next()){
+                return true;
+            } else
+                return false;
+   
+        } catch (SQLException e) {
+        }
+        
+        return false;
+    }
+
+    public ArrayList<OrderItem> getOrderItems(int orderId) {
         ArrayList<OrderItem> items = new ArrayList<>();
         try {
             Connection connection = getConnection();
-            String query = "SELECT * FROM OrderItems WHERE orderId="
-                    + orderId + " AND username='" + username + "';";
-            Statement getItems = connection.createStatement();
-            ResultSet result = getItems.executeQuery(query);
+            String query = "SELECT * FROM OrderItems WHERE orderId=?";
+
+            PreparedStatement getItems = connection.prepareStatement(query);
+            getItems.setInt(1, orderId);
+            
+            ResultSet result = getItems.executeQuery();
 
             while (result.next()) {
                 String itemId = result.getString("itemId");
@@ -357,6 +386,41 @@ public class MySQLDataStoreUtilities {
         }
 
         return items;
+    }
+
+    public ArrayList<OrderPayment> getAllOrderItems() {
+        ArrayList<OrderPayment> orders = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            String query = "SELECT CustomerOrders.OrderId, CustomerOrders.username,"
+                    + " OrderPayments.userAddress, OrderPayments.creditCardNo,"
+                    + " CustomerOrders.orderDate "
+                    + "FROM CustomerOrders "
+                    + "JOIN OrderPayments "
+                    + "ON customerorders.orderId = orderpayments.orderId; ";
+            Statement getItems = connection.createStatement();
+            ResultSet result = getItems.executeQuery(query);
+
+            while (result.next()) {
+                int orderId = result.getInt(1);
+                String uname = result.getString(2);
+                String address = result.getString(3);
+                String cc = result.getString(4);
+                String orderDate = result.getString(5);
+
+                OrderPayment order = new OrderPayment(orderId, uname,
+                        address, cc);
+                order.setOrderDate(orderDate);
+                orders.add(order);
+            }
+            getItems.close();
+            connection.close();
+
+        } catch (SQLException e) {
+
+        }
+
+        return orders;
     }
 
     public static Connection getConnection() {

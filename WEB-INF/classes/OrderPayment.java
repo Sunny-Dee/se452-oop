@@ -16,6 +16,7 @@ public class OrderPayment implements Serializable {
     private String userName;
     private String userAddress;
     private String creditCardNo;
+    private String orderDate;
 
     public OrderPayment(int orderId, String userName, String userAddress, String creditCardNo) {
         this.orderId = orderId;
@@ -54,6 +55,15 @@ public class OrderPayment implements Serializable {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+    
+    
+    public String getOrderDate(){
+        return orderDate;
+    }
+    
+    public void setOrderDate(String orderDate){
+        this.orderDate = orderDate;
     }
 
 }
