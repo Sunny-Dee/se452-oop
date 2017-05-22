@@ -13,12 +13,12 @@ public class Review {
     String productName;
     String username;
     String productType;
-    int rating;
+    String rating;
     String reviewDate;
     String reviewText;
     
     public Review(String productName, String username, String productType, 
-            int rating, String reviewDate, String reviewText){
+            String rating, String reviewDate, String reviewText){
         this.productName = productName;
         this.username = username;
         this.productType = productType;
@@ -51,11 +51,11 @@ public class Review {
         return productType;
     }
     
-    public void setRating(int rating){
+    public void setRating(String rating){
         this.rating = rating;
     }
     
-    public int getRating(){
+    public String getRating(){
         return rating;
     }
     

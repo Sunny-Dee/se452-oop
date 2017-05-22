@@ -41,14 +41,14 @@ public class ViewReview extends HttpServlet {
             return;
         }
         
+        String productId = request.getParameter("name");
         MongoDBDataStoreUtilities mongodb = new MongoDBDataStoreUtilities();
         
-        HashMap<String, ArrayList<Review>>reviews = mongodb.selectReview();
-        for (ArrayList<Review> reviewLists : reviews.values()){
-            for(Review r : reviewLists){
+        ArrayList<Review>reviews = mongodb.getReviewsByProduct(productId);
+            for(Review r : reviews){
                 pw.print("<p>" + r.getReviewText()+ "</p>");
             }
-        }
+        
     }
     
 }

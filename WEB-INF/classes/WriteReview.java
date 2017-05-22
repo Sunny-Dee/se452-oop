@@ -110,9 +110,9 @@ public class WriteReview extends HttpServlet {
             String reviewText = request.getParameter("review");
             
             
-            boolean result = db.insertReview(productId, 
-                    utility.username(), productType, 
-                    rating, reviewDate, reviewText);
+            boolean result = db.submitOtUpdateReview(productId, productType,
+            rating, reviewDate, reviewText, utility.username());
+
             
             if (result){
                pw.print("<div class='entry'><h3>Your review has been submitted</h3>"
