@@ -84,17 +84,17 @@ public class ManageCustomers extends HttpServlet {
             pw.print("<table id='bestseller' style='width:100%'><tr><td>"
                     + "<h3>Username</h3></td><td><input type='text' name='updateusername' value='" + custUsername + "' class='input' required></input>"
                     + "</td></tr><tr><td>"
-                    + "<h3>Password</h3></td><td><input type='password' name='updateuserpw' value='' class='input' required></input>"
+                    + "<h3>Password</h3></td><td><input type='password' name='updateuserpw' value='' class='input'></input>"
                     + "</td></tr><tr><td>"
                     + "<h3>User Type</h3></td><td><select name='usertype' class='input'>"
                     + "<option value='customer'>Customer</option>"
                     + "<option value='retailer'>Store Manager</option>"
                     + "<option value='manager'>Salesman</option></select>"
-                    + "</td></tr></table>");
+                    + "</td></tr>");
             pw.print("<input type='hidden' name='user' value='" + custUsername + "'></input>");
             pw.print("<input type='hidden' name='RequestUpdate' value='RequestUpdate'></input>");
-            pw.print("<input type='submit' class='btndel' name='Update' value='Update'></input>");
-            pw.print("<input type='submit' class='btndel' name='Update' value='Delete'></input></form>");
+            pw.print("<tr><td><input type='submit' class='btndel' name='Update' value='Update'></input>");
+            pw.print("<input type='submit' class='btndel' name='Update' value='Delete'></input></td></tr></form></table>");
             pw.print("</div></div></div>");
 
         }

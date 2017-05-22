@@ -42,10 +42,10 @@ public class ManageOrders extends HttpServlet {
 
         if (request.getParameter("RequestOrderUpdate") == null) {
             utility.printHtml("Header.html");
-            pw.print("<form name ='ManageOrders' action='ManageOrders' method='post'>");
+           
             pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
 
-            pw.print("<a style='font-size: 24px;'>BestDeal Users</a>");
+            pw.print("<a style='font-size: 24px;'>BestDeal Orders</a>");
             pw.print("</h2><div class='entry'>");
 
             ArrayList<OrderPayment> orders = db.getAllOrderItems();
@@ -55,23 +55,24 @@ public class ManageOrders extends HttpServlet {
                 pw.print("<table  class='gridtable'>");
                 pw.print("<tr><td>OrderId</td>");
                 pw.print("<td>Username</td>");
-                pw.print("<td>Order Date</td>");
-                pw.print("<td></td></tr>");
+                pw.print("<td>Order Date</td><td></tr></tr>");
 
                 for (OrderPayment order : orders) {
                     pw.print("<tr>");
-                    pw.print("<td><input type='radio' name='orderId' value='" + order.getOrderId() + "'>"
-                            + "<label for='username'>" + order.getOrderId() + "</label></td>");
+                     pw.print("<form name ='ManageOrders' action='ManageOrders' method='post'>");
+                    pw.print("<td><input type='hidden' name='orderId' value='" + order.getOrderId() + "'></input>"
+                             + order.getOrderId() + "</td>");
                     pw.print("<td>" + order.getUserName() +"</td>"
                             + "<input type='hidden' name='user' value='"+order.getUserName()+"'></input>");
 //                    pw.print("<input type='hidden' name='orderid' value='" + order.getOrderId() + "'></input>");
                     pw.print("<td>" + order.getOrderDate() + "</td>");
+
                     pw.print("<td><input type='submit' name='RequestOrderUpdate' value='update' class='btnbuy'></td>");
-                    pw.print("</tr>");
+                    pw.print("</form></tr>");
 
                 }
                 pw.print("</table>");
-                pw.print("</form></div></div></div>");
+                pw.print("</div></div></div>");
 
             } else {
                 pw.print("did not find anything");
@@ -98,10 +99,10 @@ public class ManageOrders extends HttpServlet {
             ArrayList<OrderItem> orderItems = db.getOrderItems(orderId);
 
             utility.printHtml("Header.html");
-            pw.print("<form name ='ManageOrders' action='ManageOrders' method='post'>");
+            
             pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
 
-            pw.print("<a style='font-size: 24px;'>Order " + orderId + "</a>");
+            pw.print("<a style='font-size: 24px;'>Order " + orderId +  " username: "+username + "</a>");
             pw.print("</h2><div class='entry'>");
 
             pw.print("<table  class='gridtable'>");
@@ -112,19 +113,20 @@ public class ManageOrders extends HttpServlet {
 
             for (OrderItem order : orderItems) {
                 pw.print("<tr>");
-                pw.print("<td><input type='radio' name='itemname' value='" + order.getName() + "'>"
-                        + "<label for='price'>" + order.getName() + "</label></td>");
+                pw.print("<form name ='ManageOrders' action='ManageOrders' method='post'>");
+                pw.print("<td><input type='hidden' name='itemname' value='" + order.getName()+"'>"
+                        + order.getName() + "</td>");
                 pw.print("<td>" + order.getRetailer() + "</td>");
                 pw.print("<td>" + order.getPrice() + "</td>");
-                pw.print("<input type='hidden' name='itemid' value='" + order.getId() + "'>");
-                pw.print("<input type='hidden' name='user' value='" + username + "'>");
-                pw.print("<input type='hidden' name='orderId' value='" + orderId + "'>");
+                pw.print("<input type='hidden' name='itemid' value='" + order.getId() + "'></input>");
+                pw.print("<input type='hidden' name='user' value='" + username + "'></input>");
+                pw.print("<input type='hidden' name='orderId' value='" + orderId + "'></input>");
                 pw.print("<td><input type='submit' name='RequestOrderUpdate' value='delete' class='btnbuy'></td>");
-                pw.print("</tr>");
-
+                pw.print("</form></tr>");
             }
+           
             pw.print("</table>");
-            pw.print("</form></div></div></div>");
+            pw.print("</div></div></div>");
         }
 
         utility.printHtml("Footer.html");

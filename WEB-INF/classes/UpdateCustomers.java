@@ -45,7 +45,8 @@ public class UpdateCustomers extends HttpServlet {
         String oldUsername = request.getParameter("user");
 
         if (request.getParameter("Update").equals("Update")) {
-            String newUsername = request.getParameter("updateusername");
+            
+           
 //            String usertype = request.getParameter("usertype");
             String password = request.getParameter("updateuserpw");
 
@@ -55,15 +56,17 @@ public class UpdateCustomers extends HttpServlet {
                 pw.print("Could not retrieve user.");
             }
 
-            if (!newUsername.equals("") && newUsername != null) {
-                user.setName(newUsername);
+            if (request.getParameter("updateusername") != null) {
+                String newusername = request.getParameter("updateusername");
+                if (newusername != null)
+                    user.setName(newusername);
             }
-
+//
 //            if (!usertype.equals("") && usertype != null) {
 //                user.setName(usertype);
 //            }
 
-            if (!password.equals("") && password != null) {
+            if (password != null && !password.equals("")) {
                 user.setPassword(password);
             }
             
