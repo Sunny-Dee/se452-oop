@@ -63,12 +63,17 @@ public class CheckOut extends HttpServlet {
             pw.print("</td></tr></table><table><tr></tr><tr></tr>");
             pw.print("<tr><td>");
             pw.print("Credit/accountNo</td>");
-            pw.print("<td><input type='text' name='creditCardNo'>");
+            pw.print("<td><input type='text' name='creditCardNo'/>");
             pw.print("</td></tr>");
             pw.print("<tr><td>");
             pw.print("Customer Address</td>");
-            pw.print("<td><input type='text' name='userAddress'>");
+            pw.print("<td><input type='text' name='userAddress'/>");
             pw.print("</td></tr>");
+            
+            pw.print("<tr><td>Zip-code</td> <td>");
+            pw.print("<input type='text' pattern='[0-9]{5}' name='zipcode'>");
+            pw.print("</td></tr>");
+            
             pw.print("<tr><td colspan='2'>");
             pw.print("<input type='submit' name='submit' class='btnbuy'>");
             pw.print("</td></tr></table></form>");

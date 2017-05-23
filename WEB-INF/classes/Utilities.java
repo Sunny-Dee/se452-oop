@@ -1,4 +1,5 @@
 
+import data.OrderPayment;
 import data.Product;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -185,9 +186,10 @@ public class Utilities extends HttpServlet {
     }
 
     // store the payment details for orders
-    public void storePayment(int orderId, String userAddress, String creditCardNo) {
+    public void storePayment(int orderId, String userAddress, String creditCardNo, String zipcode) {
         
-        OrderPayment orderpayment = new OrderPayment(orderId, username(), userAddress, creditCardNo);
+        OrderPayment orderpayment = new OrderPayment(orderId, username(), 
+                userAddress, creditCardNo, zipcode);
         db.storePayment(orderpayment);
         
     }

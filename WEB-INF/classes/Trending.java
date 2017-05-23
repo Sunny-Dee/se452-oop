@@ -1,4 +1,5 @@
 
+import data.PopProduct;
 import data.Product;
 import data.Review;
 import data.ReviewProduct;
@@ -25,17 +26,19 @@ public class Trending extends HttpServlet {
         PrintWriter pw = response.getWriter();
         Utilities utility = new Utilities(request, pw);
         MongoDBDataStoreUtilities db = new MongoDBDataStoreUtilities();
+        MySQLDataStoreUtilities sqlDb = new MySQLDataStoreUtilities();
         DecimalFormat df = new DecimalFormat("#.0");
 
 //        TreeMap<Double, Product> topProducts = db.getTopFiveProducts();
 //        int numProds = topProducts.size();
         ArrayList<ReviewProduct> reviews = db.getTopFiveProducts();
+        ArrayList<PopProduct> popularProducts = sqlDb.getBestSellers();
 
         utility.printHtml("Header.html");
         utility.printHtml("LeftNavigationBar.html");
 
         pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
-        pw.print("<a style='font-size: 24px;'>Trending Products</a></h2>");
+        pw.print("<a style='font-size: 24px;'>Highest Rated Products</a></h2>");
 
         int index = 0;
         while (index < reviews.size() && index < 5) {
@@ -46,8 +49,8 @@ public class Trending extends HttpServlet {
             pw.print("<table class='gridtable'>");
 
             pw.print("<tr>");
-            pw.print("<td><img class='thumb' src='images/" + review.getProductType()
-                    + "/" + product.getImage() + "' alt='' height=120 width=120/></td>");
+            pw.print("<td colspan='2'><img class='thumb' src='images/" + review.getProductType()
+                    + "/" + product.getImage() + "' alt='' height=150 width=150/></td>");
             pw.print("</tr>");
 
             pw.print("<tr>");
@@ -71,15 +74,45 @@ public class Trending extends HttpServlet {
             pw.print("</table>");
             pw.print("</div>");
             index++;
-        }
+        } 
+        pw.print("</div>");
+        
+        pw.print("<div class='post'><h2 class='title meta'>");
+        pw.print("<a style='font-size: 24px;'>Best Sellers</a></h2>");
+        for (PopProduct p : popularProducts){
+            Product product = SaxParserDataStore.allProducts.get(p.getProductType())
+                    .get(p.getId());
+            
+            pw.print("<div class='entry'>");
+            pw.print("<table class='gridtable'>");
 
-//        for (Map.Entry<String, ArrayList<Review>> entry : reviews.entrySet()){
-//            for (Review r : entry.getValue()){
-//                pw.print("<tr><td>Name: </td><td>"+r.getProductName()+"</td><tr>");
-//                pw.print("<tr><td>Rating: </td><td>"+r.getRating()+"</td></tr>");
-//            }
-//        }
-        pw.print("</div></div>");
+            pw.print("<tr>");
+            pw.print("<td colspan='2'><img class='thumb' src='images/" + p.getProductType()
+                    + "/" + product.getImage() + "' alt='' height=150 width=150/></td>");
+            pw.print("</tr>");
+
+            pw.print("<tr>");
+            pw.print("<td> Product Name: </td>");
+            pw.print("<td>" + product.getName() + "</td>");
+            pw.print("</tr>");
+
+            pw.print("<tr>");
+            pw.print("<td> Product Maker: </td>");
+            pw.print("<td>" + product.getRetailer() + "</td>");
+            pw.print("</tr>");
+            pw.print("<tr>");
+            pw.print("<td> Units Sold: </td>");
+            pw.print("<td>" + p.getNumTimesBought() + "</td>");
+            pw.print("</tr>");
+
+            pw.print("</table>");
+            pw.print("</div>");
+        }
+        
+        //insert higuest selling here. 
+        pw.print("</div>");
+
+        pw.print("</div>");
         utility.printHtml("Footer.html");
     }
 }

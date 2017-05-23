@@ -28,14 +28,14 @@ public class Payment extends HttpServlet {
 
         String userAddress = request.getParameter("userAddress");
         String creditCardNo = request.getParameter("creditCardNo");
-
+        String zipcode = request.getParameter("zipcode");
         
         //TODO if orderId < 1 create an error message.
         /*This function clears the cart and moves all cart items to 
         the orders table */
         int orderId = utility.storeAndGetOrderId();
         //iterate through each order
-        utility.storePayment(orderId, userAddress, creditCardNo);
+        utility.storePayment(orderId, userAddress, creditCardNo, zipcode);
 
 //        for (OrderItem oi : utility.getCartItems()) {
 //            //set the parameter for each column and execute the prepared statement

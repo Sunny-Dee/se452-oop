@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+import data.OrderPayment;
+import data.PopProduct;
 import data.Product;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -299,14 +301,13 @@ public class MySQLDataStoreUtilities {
             updateOrder.executeUpdate();
 
             boolean isEmpty = checkEmpty(orderId, connection);
-            if (isEmpty){
+            if (isEmpty) {
                 cancelEntireOrder(username, orderId);
             }
-            
+
             updateOrder.close();
             connection.close();
-            
-           
+
         } catch (SQLException e) {
         }
 
@@ -346,16 +347,17 @@ public class MySQLDataStoreUtilities {
             PreparedStatement updateOrder = connection.prepareStatement(query);
             updateOrder.setInt(1, orderid);
             ResultSet result = updateOrder.executeQuery();
-            
+
             updateOrder.close();
-            if (result.next()){
+            if (result.next()) {
                 return true;
-            } else
+            } else {
                 return false;
-   
+            }
+
         } catch (SQLException e) {
         }
-        
+
         return false;
     }
 
@@ -367,7 +369,7 @@ public class MySQLDataStoreUtilities {
 
             PreparedStatement getItems = connection.prepareStatement(query);
             getItems.setInt(1, orderId);
-            
+
             ResultSet result = getItems.executeQuery();
 
             while (result.next()) {
@@ -395,7 +397,7 @@ public class MySQLDataStoreUtilities {
             Connection connection = getConnection();
             String query = "SELECT CustomerOrders.OrderId, CustomerOrders.username,"
                     + " OrderPayments.userAddress, OrderPayments.creditCardNo,"
-                    + " CustomerOrders.orderDate "
+                    + " CustomerOrders.orderDate, orderpayments.zipcode "
                     + "FROM CustomerOrders "
                     + "JOIN OrderPayments "
                     + "ON customerorders.orderId = orderpayments.orderId; ";
@@ -408,9 +410,10 @@ public class MySQLDataStoreUtilities {
                 String address = result.getString(3);
                 String cc = result.getString(4);
                 String orderDate = result.getString(5);
+                String zipcode = result.getString(6);
 
                 OrderPayment order = new OrderPayment(orderId, uname,
-                        address, cc);
+                        address, cc, zipcode);
                 order.setOrderDate(orderDate);
                 orders.add(order);
             }
@@ -422,6 +425,38 @@ public class MySQLDataStoreUtilities {
         }
 
         return orders;
+    }
+
+    public ArrayList<PopProduct> getBestSellers() {
+        ArrayList<PopProduct> popularProducts = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            String query = "SELECT itemId, itemType, COUNT(itemId) AS itemcount "
+                    + "FROM OrderItems "
+                    + "GROUP BY itemId "
+                    + "ORDER BY itemcount DESC "
+                    + "LIMIT 5;";
+            
+            Statement getPopItems = connection.createStatement();
+            ResultSet result = getPopItems.executeQuery(query);
+            
+            while(result.next()){
+                String itemId = result.getString(1);
+                String itemType = result.getString(2);
+                int peopleBought = result.getInt(3);
+                
+                PopProduct p = new PopProduct();
+                p.setId(itemId);
+                p.setProductType(itemType);
+                p.setNumTimesBought(peopleBought);
+                
+                popularProducts.add(p);
+            }
+            
+        } catch (SQLException e) {
+
+        }
+        return popularProducts;
     }
 
     public static Connection getConnection() {
