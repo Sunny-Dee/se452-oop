@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import data.Product;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;

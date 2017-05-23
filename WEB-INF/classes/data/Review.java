@@ -16,15 +16,18 @@ public class Review {
     String rating;
     String reviewDate;
     String reviewText;
+    String zipcode;
     
     public Review(String productName, String username, String productType, 
-            String rating, String reviewDate, String reviewText){
+            String rating, String reviewDate, 
+            String reviewText, String zipcode){
         this.productName = productName;
         this.username = username;
         this.productType = productType;
         this.rating = rating;
         this.reviewDate = reviewDate;
         this.reviewText = reviewText;
+        this.zipcode = zipcode;
     }
     
     public void setProductName(String productName){
@@ -73,5 +76,13 @@ public class Review {
     
     public String getReviewText(){
         return reviewText;
+    }
+    
+    public void setZipcode(String zipcode){
+        this.zipcode = zipcode;
+    }
+    
+    public String getZipcode(){
+        return zipcode;
     }
 }

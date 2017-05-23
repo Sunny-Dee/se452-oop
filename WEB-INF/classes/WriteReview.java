@@ -1,4 +1,5 @@
 
+import data.Product;
 import data.Review;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +33,7 @@ public class WriteReview extends HttpServlet {
 
         response.setContentType("text/html");
         PrintWriter pw = response.getWriter();
-        
+
         MongoDBDataStoreUtilities db = new MongoDBDataStoreUtilities();
         Utilities utility = new Utilities(request, pw);
 
@@ -78,55 +79,54 @@ public class WriteReview extends HttpServlet {
             pw.print("<form method='post' action='WriteReview'>");
             pw.print("<table style='width:80%'><tr><td>");
             pw.print("<h3>Your rating: </h3></td><td><select name='rating' class='input'>"
-                            + "<option value=0 selected>0</option>"
-                            + "<option value=1>1</option>"
-                            + "<option value=1>2</option>"
-                            + "<option value=2>3</option>"
-                            + "<option value=3>4</option>"
-                            + "<option value=4>5</option></select></td></tr>");
-            pw.print("<input type='hidden' name='name' value='"+ prodId +"'>"
-                    + "<input type='hidden' name='type' value='"+prodType+"'>"
-                    + "<input type='hidden' name='maker' value='"+maker+"'>");
-            
+                    + "<option value=0 selected>0</option>"
+                    + "<option value=1>1</option>"
+                    + "<option value=1>2</option>"
+                    + "<option value=2>3</option>"
+                    + "<option value=3>4</option>"
+                    + "<option value=4>5</option></select></td></tr>");
+            pw.print("<input type='hidden' name='name' value='" + prodId + "'>"
+                    + "<input type='hidden' name='type' value='" + prodType + "'>"
+                    + "<input type='hidden' name='maker' value='" + maker + "'>");
+
             pw.print("<tr><td><h3>Review date: </h3></td><td>"
-                + " <input type='date' name='reviewdate'></td></tr>");
-            
+                    + " <input type='date' name='reviewdate'></td></tr>");
+
+            pw.print("<tr><td><h3>Your zip-code: </h3></td><td>"
+                    + " <input type='text' name='zipcode' value='60600' class='input' required></input></td></tr>");
+
             pw.print("<tr><td><h3>Your review: </h3></td><td><input type='text' name='review' value='' class='input' required></input></td></tr>");
             pw.print("<tr><td><input type='submit' name='SubmitReview' class='btnbuy' value='Submit' style='float: right;height: "
                     + "20px margin: 20px; margin-right: 10px;'></input>"
-                + "</td></tr>"
-                + "</table>"
-                + "</form></div>");
-            
-            
-            
-            
+                    + "</td></tr>"
+                    + "</table>"
+                    + "</form></div>");
+
         } else {
-            
+
             String productType = request.getParameter("type");
             String productId = request.getParameter("name");
             String rating = request.getParameter("rating");
             String reviewDate = request.getParameter("reviewdate");
             String reviewText = request.getParameter("review");
-            
-            
-            boolean result = db.submitOtUpdateReview(productId, productType,
-            rating, reviewDate, reviewText, utility.username());
+            String zipcode = request.getParameter("zipcode");
 
-            
-            if (result){
-               pw.print("<div class='entry'><h3>Your review has been submitted</h3>"
-                    + "</div>"); 
+            boolean result = db.submitOtUpdateReview(productId, productType,
+                    rating, reviewDate, reviewText, utility.username(), zipcode);
+
+            if (result) {
+                pw.print("<div class='entry'><h3>Your review has been submitted</h3>"
+                        + "</div>");
             } else {
                 pw.print("<div class='entry'><h3>MongoDB is not available"
                         + " right now. Please try again later.</h3></div>");
             }
-            
+
         }
-        
-       //Close content div
-       pw.print("</div></div><div></div>");
-       utility.printHtml("Footer.html");
+
+        //Close content div
+        pw.print("</div></div><div></div>");
+        utility.printHtml("Footer.html");
     }
 
 }

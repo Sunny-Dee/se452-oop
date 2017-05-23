@@ -18,6 +18,7 @@
  *
  ********
  */
+import data.Product;
 import org.xml.sax.InputSource;
 
 import java.io.IOException;
