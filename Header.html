@@ -7,9 +7,10 @@
 <meta name="description" content="" />
 <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+<script type="text/javascript" src="autocomplete.js"></script>
 </head>
-<body>
-	<script type="text/javascript" src="autocomplete.js"></script>
+<body onload="init()">
+
 	<!-- Start #logo top content of the webpage-->
 	<div id="banner">
 		<div id="logo">
@@ -28,22 +29,34 @@
 						</p></td>
 				</tr>
 			</table>
-			<div
-				style="float: right; width: 30%; margin-top: 35px; border: 1px solid white; padding: 5px; padding-right: 15px">
-				<em style="color: white;">Search Product:</em>
-				<div name="autofillform">
-					<input type="text" name="complete-field" value="" class="input"
-						id="complete-field" onkeyup="doCompletion()" autocomplete="off"
-						placeholder="search here.." style="padding: 5px; font-size: 16px;" />
-					<div id="auto-row">
-						<table id="complete-table" class="gridtable"
-							style="position: absolute; width: 315px;"></table>
-					</div>
-				</div>
-			</div>
-		</div>
 
-	</div>
+			<div style="float: right; width: 30%; margin-top: 35px; border: 1px solid white; padding: 5px; padding-right: 15px">
+				<!--<script type="text/javascript" src="javascript.js"></script> -->
+				<b style="color: white;">Search Product:</b>
+
+				<form name="autofillform" action="autocomplete">
+					<table>
+						<tbody>
+							<tr>
+								<td>
+									<input type="text" name="searchId" value="" class="input" id="searchId"
+									onkeyup="doCompletion()" placeholder="search here..."
+									style="padding: 5px; font-size: 16px;" />
+								</td>
+							</tr>
+							<tr>
+								<td id="auto-row">
+								 <table id="complete-table" class="gridtable"
+									style="position: absolute; width: 315px;"></table>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</form>
+			</div>
+  </div>
+</div>
 	<hr />
 	<!-- end #logo -->
 	<!-- start #header -->
