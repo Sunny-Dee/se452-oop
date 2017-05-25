@@ -1,3 +1,5 @@
+package data;
+
 
 import data.Product;
 import com.mongodb.BasicDBObject;

@@ -1,4 +1,7 @@
+package productview;
 
+
+import business.Utilities;
 import data.Product;
 import java.io.IOException;
 import java.io.PrintWriter;

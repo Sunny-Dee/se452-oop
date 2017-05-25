@@ -1,4 +1,6 @@
 
+import data.Catalogue;
+import data.MySQLDataStoreUtilities;
 import data.Product;
 import java.util.Arrays;
 import java.util.HashMap;

@@ -1,4 +1,6 @@
 
+import data.Catalogue;
+import productview.ProductList;
 import javax.servlet.annotation.WebServlet;
 
 

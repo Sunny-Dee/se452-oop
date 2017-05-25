@@ -1,4 +1,7 @@
 
+import data.Catalogue;
+import data.MongoDBDataStoreUtilities;
+import business.Utilities;
 import data.Product;
 import data.Review;
 import java.io.IOException;
