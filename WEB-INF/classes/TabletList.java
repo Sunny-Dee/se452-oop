@@ -17,6 +17,6 @@ public class TabletList extends ProductList {
 
 	/* Trending Page Displays all the Tablets and their Information in Game Speed */
     public TabletList(){
-        super("tablet", "Tablets", SaxParserDataStore.allProducts.get("tablet"));
+        super("tablet", "Tablets", Catalogue.allProductsByType.get("tablet"));
     }
 }

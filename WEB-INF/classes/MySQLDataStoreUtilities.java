@@ -202,7 +202,7 @@ public class MySQLDataStoreUtilities {
             while (result.next()) {
                 String itemId = result.getString("itemId");
                 String type = result.getString("itemType");
-                Product product = SaxParserDataStore.allProducts.get(type).get(itemId);
+                Product product = Catalogue.allProductsByType.get(type).get(itemId);
                 OrderItem orderitem = new OrderItem(product.getId(), product.getName(),
                         product.getPrice(), product.getImage(),
                         product.getRetailer());
@@ -379,7 +379,7 @@ public class MySQLDataStoreUtilities {
             while (result.next()) {
                 String itemId = result.getString("itemId");
                 String type = result.getString("itemType");
-                Product product = SaxParserDataStore.allProducts.get(type).get(itemId);
+                Product product = Catalogue.allProductsByType.get(type).get(itemId);
                 OrderItem orderitem = new OrderItem(product.getId(), product.getName(),
                         product.getPrice(), product.getImage(),
                         product.getRetailer());
