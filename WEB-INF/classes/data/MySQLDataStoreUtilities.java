@@ -575,6 +575,7 @@ public class MySQLDataStoreUtilities {
 
         return productCatalogue;
     }
+    
 
     public static Connection getConnection() {
         Connection connection = null;
