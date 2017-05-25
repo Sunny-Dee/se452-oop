@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 public class LaptopList extends ProductList{
     
     public LaptopList(){
-        super("laptop", "Laptops", SaxParserDataStore.allProducts.get("laptop"));
+        super("laptop", "Laptops", Catalogue.allProductsByType.get("laptop"));
 
     }
 }

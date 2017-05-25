@@ -44,7 +44,7 @@ public class Trending extends HttpServlet {
         int index = 0;
         while (index < reviews.size() && index < 5) {
             ReviewProduct review = reviews.get(index);
-            Product product = SaxParserDataStore.allProducts.get(review.getProductType())
+            Product product = Catalogue.allProductsByType.get(review.getProductType())
                     .get(review.getId());
             pw.print("<div class='entry'>");
             pw.print("<table class='gridtable'>");
@@ -81,7 +81,7 @@ public class Trending extends HttpServlet {
         pw.print("<div class='post'><h2 class='title meta'>");
         pw.print("<a style='font-size: 24px;'>Best Sellers</a></h2>");
         for (PopProduct p : popularProducts) {
-            Product product = SaxParserDataStore.allProducts.get(p.getProductType())
+            Product product = Catalogue.allProductsByType.get(p.getProductType())
                     .get(p.getId());
 
             pw.print("<div class='entry'>");

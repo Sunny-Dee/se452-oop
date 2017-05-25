@@ -1,4 +1,5 @@
 
+import data.User;
 import data.OrderPayment;
 import data.Product;
 import java.io.InputStream;
@@ -196,7 +197,7 @@ public class Utilities extends HttpServlet {
     
     public void deleteItem(String itemId, String itemtype){
         if (usertype().equals("retailer")){
-            HashMap<String, Product> map = SaxParserDataStore.allProducts.get(itemtype);
+            HashMap<String, Product> map = Catalogue.allProductsByType.get(itemtype);
             map.remove(itemId);
         }
     }

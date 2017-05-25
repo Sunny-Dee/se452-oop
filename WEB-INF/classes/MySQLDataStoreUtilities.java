@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import data.User;
 import data.OrderPayment;
 import data.PopProduct;
 import data.Product;

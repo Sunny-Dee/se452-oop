@@ -42,7 +42,7 @@ public class ViewReview extends HttpServlet {
 //        }
         String productId = request.getParameter("name");
         String productType = request.getParameter("type");
-        Product product = SaxParserDataStore.allProducts
+        Product product = Catalogue.allProductsByType
                 .get(productType).get(productId);
         MongoDBDataStoreUtilities mongodb = new MongoDBDataStoreUtilities();
         ArrayList<Review> reviews = mongodb.getReviewsByProduct(productId);

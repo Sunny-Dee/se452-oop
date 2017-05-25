@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SmartphoneList extends ProductList {
     
     public SmartphoneList(){
-        super("smartphone", "Smartphones", SaxParserDataStore.allProducts.get("smartphone"));
+        super("smartphone", "Smartphones", Catalogue.allProductsByType.get("smartphone"));
     }
     
 }

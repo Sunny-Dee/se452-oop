@@ -71,7 +71,7 @@ public class ManageInventory extends HttpServlet {
             //session set attribute deleting, adding updating. 
             if (request.getParameter("Delete") != null ){
                 String prodId = request.getParameter("name");
-                SaxParserDataStore.allProducts.get(productType).remove(prodId);
+                Catalogue.allProductsByType.get(productType).remove(prodId);
             } else if (request.getParameter("Update") != null){
                 //Redirect to update item with params. 
 //                HttpSession session = request.getSession(true);
@@ -82,7 +82,7 @@ public class ManageInventory extends HttpServlet {
                 rd.forward(request, response);
             }
             
-            HashMap<String, Product> products = SaxParserDataStore.allProducts.get(productType);
+            HashMap<String, Product> products = Catalogue.allProductsByType.get(productType);
             pw.print("<div id='content'><div class='post'><h2 class='title meta'>");
             pw.print("<a style='font-size: 24px;'>"+ productType +" inventory</a></h2>");
             pw.print("<div class='entry'><table id='bestseller'>");

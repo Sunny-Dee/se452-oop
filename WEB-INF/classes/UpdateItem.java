@@ -38,8 +38,7 @@ public class UpdateItem extends HttpServlet {
         String productType = request.getParameter("prodtype");
         
         //get product
-        Product prod = SaxParserDataStore
-                .allProducts.get(productType).get(itemId);
+        Product prod = Catalogue.allProductsByType.get(productType).get(itemId);
         
         if (request.getParameter("Updt") != null){
                         

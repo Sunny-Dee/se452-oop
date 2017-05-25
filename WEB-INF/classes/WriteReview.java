@@ -49,7 +49,7 @@ public class WriteReview extends HttpServlet {
         String prodType = request.getParameter("type");
         String maker = request.getParameter("maker");
 
-        Product product = SaxParserDataStore.allProducts.get(prodType).get(prodId);
+        Product product = Catalogue.allProductsByType.get(prodType).get(prodId);
 
         utility.printHtml("Header.html");
         utility.printHtml("LeftNavigationBar.html");
