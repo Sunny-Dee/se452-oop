@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -232,6 +233,8 @@ public class MySQLDataStoreUtilities {
             int orderId = cs.getInt(2);
             cs.close();
 
+//            Statement orderPmt = connection.createStatement();
+//            PreparedState
             // create a statement and a prep stmt for later
             Statement statement = connection.createStatement();
             PreparedStatement storeOrder
@@ -272,7 +275,7 @@ public class MySQLDataStoreUtilities {
     }
 
     public void storePayment(OrderPayment op) {
-        String query = "INSERT INTO OrderPayments Values(?, ?, ?, ?)";
+        String query = "INSERT INTO OrderPayments Values(?, ?, ?, ?, ?)";
 
         try {
             Connection connection = getConnection();
@@ -281,6 +284,7 @@ public class MySQLDataStoreUtilities {
             updatePmt.setString(2, op.getUserName());
             updatePmt.setString(3, op.getUserAddress());
             updatePmt.setString(4, op.getCreditCardNo());
+            updatePmt.setString(5, op.getZipcode());
             updatePmt.executeUpdate();
 
             updatePmt.close();
@@ -436,27 +440,137 @@ public class MySQLDataStoreUtilities {
                     + "GROUP BY itemId "
                     + "ORDER BY itemcount DESC "
                     + "LIMIT 5;";
-            
+
             Statement getPopItems = connection.createStatement();
             ResultSet result = getPopItems.executeQuery(query);
-            
-            while(result.next()){
+
+            while (result.next()) {
                 String itemId = result.getString(1);
                 String itemType = result.getString(2);
                 int peopleBought = result.getInt(3);
-                
+
                 PopProduct p = new PopProduct();
                 p.setId(itemId);
                 p.setProductType(itemType);
                 p.setNumTimesBought(peopleBought);
-                
+
                 popularProducts.add(p);
             }
-            
+            getPopItems.close();
+            connection.close();
+
         } catch (SQLException e) {
 
         }
         return popularProducts;
+    }
+
+    public ArrayList<String> getPopularZipcodes() {
+        ArrayList<String> popularZipcodes = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+
+            String query = "SELECT op.zipcode, COUNT(oi.itemId) AS zipcount FROM orderpayments AS op "
+                    + "JOIN orderitems AS oi "
+                    + "WHERE oi.orderID = op.orderId AND op.zipcode IS NOT NULL "
+                    + "GROUP BY op.zipcode "
+                    + "ORDER BY zipcount DESC "
+                    + "LIMIT 5;";
+
+            Statement getPopZips = connection.createStatement();
+            ResultSet result = getPopZips.executeQuery(query);
+
+            while (result.next()) {
+                String zipcode = result.getString(1);
+                popularZipcodes.add(zipcode);
+            }
+            
+            getPopZips.close();
+            connection.close();
+        } catch (SQLException e) {
+            popularZipcodes.add("SQL NOT AVAILABLE");
+        }
+        return popularZipcodes;
+    }
+
+    public HashMap<String, HashMap<String, Product>> getAllProductsByType(List<String> productTypes) {
+        HashMap<String, HashMap<String, Product>> productCatalogue = new HashMap<>();
+
+        try {
+            Connection connection = getConnection();
+            Statement statement;
+            for (String prodType : productTypes) {
+                String query = "SELECT * FROM Products WHERE productType='" + prodType + "';";
+                HashMap<String, Product> map = new HashMap<>();
+                statement = connection.createStatement();
+
+                ResultSet result = statement.executeQuery(query);
+
+                while (result.next()) {
+                    Product product = new Product();
+                    String prodId = result.getString(1);
+                    product.setId(prodId);
+                    product.setProductType(result.getString(2));
+                    product.setName(result.getString(3));
+                    product.setPrice(result.getDouble(4));
+                    product.setImage(result.getString(5));
+                    product.setRetailer(result.getString(6));
+                    product.setCondition(result.getString(7));
+                    product.setDiscount(result.getDouble(8));
+
+                    map.put(prodId, product);
+                }
+
+                productCatalogue.put(prodType, map);
+                statement.close();
+            }
+            
+            connection.close();
+
+        } catch (SQLException e) {
+            
+            
+        }
+
+        return productCatalogue;
+    }
+
+    public HashMap<String, Product> getAllProducts() {
+        HashMap<String, Product> productCatalogue = new HashMap<>();
+
+        try {
+            Connection connection = getConnection();
+            String query = "SELECT * FROM Products;";
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query);
+
+            while (result.next()) {
+                Product product = new Product();
+                String prodId = result.getString(1);
+                product.setId(prodId);
+                product.setProductType(result.getString(2));
+                product.setName(result.getString(3));
+                product.setPrice(result.getDouble(4));
+                product.setImage(result.getString(5));
+                product.setRetailer(result.getString(6));
+                product.setCondition(result.getString(7));
+                product.setDiscount(result.getDouble(8));
+                
+                productCatalogue.put(prodId, product);
+            }
+            
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+//            Product p = new Product();
+//            p.setId("tv1");
+//            p.setName(e.getMessage());
+//            p.setProductType(e.getSQLState());
+//            productCatalogue.put("tv1", p);
+            
+        }
+
+        return productCatalogue;
     }
 
     public static Connection getConnection() {
@@ -480,4 +594,5 @@ public class MySQLDataStoreUtilities {
 
         return connection;
     }
+
 }

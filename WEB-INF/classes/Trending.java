@@ -33,6 +33,7 @@ public class Trending extends HttpServlet {
 //        int numProds = topProducts.size();
         ArrayList<ReviewProduct> reviews = db.getTopFiveProducts();
         ArrayList<PopProduct> popularProducts = sqlDb.getBestSellers();
+        ArrayList<String> popularZipcodes = sqlDb.getPopularZipcodes();
 
         utility.printHtml("Header.html");
         utility.printHtml("LeftNavigationBar.html");
@@ -74,15 +75,15 @@ public class Trending extends HttpServlet {
             pw.print("</table>");
             pw.print("</div>");
             index++;
-        } 
+        }
         pw.print("</div>");
-        
+
         pw.print("<div class='post'><h2 class='title meta'>");
         pw.print("<a style='font-size: 24px;'>Best Sellers</a></h2>");
-        for (PopProduct p : popularProducts){
+        for (PopProduct p : popularProducts) {
             Product product = SaxParserDataStore.allProducts.get(p.getProductType())
                     .get(p.getId());
-            
+
             pw.print("<div class='entry'>");
             pw.print("<table class='gridtable'>");
 
@@ -108,8 +109,23 @@ public class Trending extends HttpServlet {
             pw.print("</table>");
             pw.print("</div>");
         }
-        
-        //insert higuest selling here. 
+        pw.print("</div>");
+
+        //Important zipcodes
+        pw.print("<div class='post'><h2 class='title meta'>");
+        pw.print("<a style='font-size: 24px;'>Top 5 zipcodes</a></h2>");
+
+        pw.print("<div class='entry'>");
+        pw.print("<table class='gridtable'>");
+        int rank = 1;
+        for (String zip : popularZipcodes) {
+            pw.print("<tr>");
+            pw.print("<td> Zipcode: " + rank++ + "</td>");
+            pw.print("<td>" + zip + "</td>");
+            pw.print("</tr>");
+        }
+        pw.print("</table>");
+        pw.print("</div>");
         pw.print("</div>");
 
         pw.print("</div>");

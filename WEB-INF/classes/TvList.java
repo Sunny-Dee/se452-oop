@@ -12,9 +12,8 @@ import javax.servlet.annotation.WebServlet;
 
 
 public class TvList extends ProductList{
-    
     public TvList(){
-        super("tv", "TV's", SaxParserDataStore.allProducts.get("tv"));
+        super("tv", "TV's", Catalogue.allProductsByType.get("tv"));
     }
     
 }

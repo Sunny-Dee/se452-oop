@@ -21,6 +21,7 @@ public class ProductList extends HttpServlet{
     private final String title;
     HashMap<String, Product> allRetailersMap;
     
+    
 
 	/* Product Page Displays all the specified products and their Information in Game Speed */
         
@@ -28,7 +29,6 @@ public class ProductList extends HttpServlet{
             this.productType = productType;
             this.title = title;
             this.allRetailersMap = allRetailersMap;
-            
         }
 
 	
