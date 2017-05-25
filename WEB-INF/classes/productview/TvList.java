@@ -1,3 +1,5 @@
+package productview;
+
 
 import data.Catalogue;
 import productview.ProductList;
