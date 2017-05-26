@@ -1,13 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>BestDeal</title>
-<meta name="keywords" content="" />
-<meta name="description" content="" />
-<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
-<script type="text/javascript" src="autocomplete.js"></script>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>BestDeal</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
 </head>
 <body onload="init()">
 
@@ -30,8 +31,10 @@
 				</tr>
 			</table>
 
-			<div style="float: right; width: 30%; margin-top: 35px; border: 1px solid white; padding: 5px; padding-right: 15px">
+			<div style="float: right; width: 30%; margin-top: 35px;
+			border: 1px solid white; padding: 5px; padding-right: 15px">
 				<!--<script type="text/javascript" src="javascript.js"></script> -->
+				<script type="text/javascript" src="autocomplete.js"></script>
 				<b style="color: white;">Search Product:</b>
 
 				<form name="autofillform" action="autocomplete">
@@ -39,9 +42,10 @@
 						<tbody>
 							<tr>
 								<td>
-									<input type="text" name="searchId" value="" class="input" id="searchId"
+									<input type="text" name="searchId" value="" class="input"
+									id="searchId"
 									onkeyup="doCompletion()" placeholder="search here..."
-									style="padding: 5px; font-size: 16px;" />
+									style="padding: 5px; font-size: 16px;"></input>
 								</td>
 							</tr>
 							<tr>

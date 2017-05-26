@@ -9,16 +9,27 @@ function init() {
   completeTable= document.getElementById("complete-table");
   autoRow= document.getElementById("auto-row");
   completeTable.style.top = getElementY(autoRow) + "px";
+
+  console.log("init called");
 }
 
 function doCompletion() {
-  var url= "autocomplete?action=complete&searchId=" + escape(searchId.value);
+  console.log("doCompletioncalled \n");
+  console.log("searchId: " + searchId.value)
+  var url = "autocomplete?action=complete&searchId=" + escape(searchId.value);
   req = initRequest();
+  console.log("url: " + url);
   req.open("GET", url, true);
   req.onreadystatechange = callback;
+  console.log("request readyState" + req.readyState);
+  console.log("request readyState" + req.readyState);
+
+  req.send(null);
 }
 
+
 function initRequest() {
+  console.log("initRequest called");
   if (window.XMLHttpRequest) {
     if (navigator.userAgent.indexOf('MSIE') != -1) {
       isIE= true;

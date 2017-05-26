@@ -252,6 +252,11 @@ hr {
 	color: #FFFFFF;
 }
 
+.popupBox {
+  position: absolute;
+  left: 140px;
+}
+
 /* Left Navigation Bar - Sidebar */
 #sidebar {
 	float: left;
